@@ -1,0 +1,47 @@
+---
+import AreaCheck from '../components/AreaCheck.astro';
+import AreaMap from '../components/AreaMap.astro';
+import PageHead from '../components/PageHead.astro';
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+---
+
+<Base
+  title={`Kontakt – ${site.name}`}
+  description={`Ring til ${site.owner} på ${site.phone}, eller fortæl om dit projekt og få en pris. ${site.trade} i ${site.city} og omegn.`}
+>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead title="Kontakt" lead="Ring, skriv, eller fortæl os om dit projekt. Vi vender tilbage hurtigst muligt." />
+
+      <div class="contact">
+        <div class="contact-card contact-card-main">
+          <h2>Få en pris</h2>
+          <p>Fortæl om opgaven på et par minutter, og vedhæft gerne billeder.</p>
+          <button type="button" class="button button-paper" data-open-quote>Beskriv dit projekt</button>
+        </div>
+        <div class="contact-card">
+          <h2>Ring</h2>
+          <p>Du får fat i {site.owner.split(' ')[0]} selv.</p>
+          <a class="contact-value" href={`tel:${site.phoneHref}`}>{site.phone}</a>
+        </div>
+        <div class="contact-card">
+          <h2>Skriv</h2>
+          <p>Send en mail, hvis det passer dig bedre.</p>
+          <a class="contact-value" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-panel" id="omraade">
+    <div class="wrap area">
+      <div class="area-copy">
+        <h2 class="section-title">Vi kører i hele {site.city}</h2>
+        <p>Fra Skødstrup i nord til Malling i syd, og ud til Harlev og Sabro i vest. Skriv dit postnummer, eller tryk på din bydel på kortet.</p>
+        <AreaCheck />
+      </div>
+      <AreaMap />
+    </div>
+  </section>
+</Base>

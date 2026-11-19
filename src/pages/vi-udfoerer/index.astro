@@ -1,0 +1,27 @@
+---
+import Offer from '../../components/Offer.astro';
+import PageHead from '../../components/PageHead.astro';
+import TaskCards from '../../components/TaskCards.astro';
+import Base from '../../layouts/Base.astro';
+import { allServices, site } from '../../lib/site';
+
+const services = await allServices();
+---
+
+<Base
+  title={`Vi udfører – ${site.name}`}
+  description={`${site.trade} i ${site.city} og omegn. Se, hvad vi udfører ude og inde: tag, facade, vinduer, terrasse, køkken, gulve, badeværelse og mere.`}
+>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead title="Vi udfører" lead="Tømrerarbejde og flisearbejde, ude og inde. Vælg en opgave for at læse mere, eller bed om en pris med det samme." />
+
+      <h2 class="group-title">Udvendigt</h2>
+      <TaskCards services={services} group="ude" />
+
+      <h2 class="group-title">Indvendigt</h2>
+      <TaskCards services={services} group="inde" />
+    </div>
+  </section>
+  <Offer />
+</Base>

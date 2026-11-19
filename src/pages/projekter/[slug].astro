@@ -1,0 +1,79 @@
+---
+import { render } from 'astro:content';
+import Offer from '../../components/Offer.astro';
+import PageHead from '../../components/PageHead.astro';
+import Screw from '../../components/Screw.astro';
+import Base from '../../layouts/Base.astro';
+import { publishedProjects, site, url, type Project } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const projects = await publishedProjects();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const image = (file: string) => url(`projekter/${project.id}/${file}`);
+---
+
+<Base title={`${data.title} – ${site.name}`} description={data.summary}>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead title={data.title} lead={data.summary} crumbs={[{ href: 'projekter/', label: 'Projekter' }]}>
+        <p class="project-meta">{data.task}, {data.place} {data.year}</p>
+      </PageHead>
+
+      {data.before && data.after && (
+        <div class="before-after">
+          <figure>
+            <img src={image(data.before)} alt={`${data.title}, før`} />
+            <figcaption>Før</figcaption>
+          </figure>
+          <figure>
+            <img src={image(data.after)} alt={`${data.title}, efter`} />
+            <figcaption>Efter</figcaption>
+          </figure>
+        </div>
+      )}
+
+      <div class="project-body">
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="project-facts">
+          {data.work.length > 0 && (
+            <div>
+              <h2>Udført arbejde</h2>
+              <ul class="ticks">
+                {data.work.map((item) => <li><Screw />{item}</li>)}
+              </ul>
+            </div>
+          )}
+          {data.materials.length > 0 && (
+            <div>
+              <h2>Materialer</h2>
+              <ul class="ticks">
+                {data.materials.map((item) => <li><Screw />{item}</li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {data.images.length > 0 && (
+        <div class="gallery">
+          {data.images.map((file) => <img src={image(file)} alt="" loading="lazy" />)}
+        </div>
+      )}
+    </div>
+  </section>
+  <Offer />
+</Base>

@@ -1,0 +1,34 @@
+---
+import { url, type Service } from '../lib/site';
+
+interface Props {
+  services: Service[];
+  group: 'ude' | 'inde';
+  hidden?: boolean;
+}
+
+const { services, group, hidden = false } = Astro.props;
+const other = group === 'ude'
+  ? { task: 'Andet udvendigt', title: 'Andre udvendige opgaver' }
+  : { task: 'Andet indvendigt', title: 'Andre indvendige opgaver' };
+---
+
+<div class="choices" data-view-list={group} hidden={hidden}>
+  {services.filter((service) => service.data.group === group).map(({ id, data }) => (
+    <article class="choice" data-task={data.task}>
+      <h3 class="choice-name"><a href={url(`vi-udfoerer/${id}/`)}>{data.title}</a></h3>
+      <p class="choice-text">{data.summary}</p>
+      <p class="choice-actions">
+        <button type="button" class="choice-link" data-open-quote data-task={data.task}>Få en pris</button>
+        <a class="choice-more" href={url(`vi-udfoerer/${id}/`)} aria-label={`Læs mere om ${data.title.toLowerCase()}`}>Læs mere</a>
+      </p>
+    </article>
+  ))}
+  <article class="choice choice-other" data-task={other.task}>
+    <h3 class="choice-name">{other.title}</h3>
+    <p class="choice-text">Står din opgave ikke på listen? Fortæl os om den.</p>
+    <p class="choice-actions">
+      <button type="button" class="choice-link" data-open-quote data-task={other.task}>Få en pris</button>
+    </p>
+  </article>
+</div>

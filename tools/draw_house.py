@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the interactive house and writes it into site/index.html.
+"""Draws the interactive house and writes it to src/drawings/house.svg.
 
 The house is an isometric drawing built from measurements in metres. Two
 scenes share one footprint: the outside, and the inside with the roof and
@@ -14,10 +14,9 @@ Run it after changing a measurement:
 from collections.abc import Sequence
 import math
 import pathlib
-import re
 from typing import TypeAlias
 
-_PAGE = pathlib.Path(__file__).parent.parent / 'site' / 'index.html'
+_OUT = pathlib.Path(__file__).parent.parent / 'src/drawings/house.svg'
 _COS = math.cos(math.radians(30))
 _PX_PER_METRE = 44
 _WALL = 2.9
@@ -354,15 +353,7 @@ def _house() -> str:
 
 
 def main():
-    page = _PAGE.read_text(encoding='utf-8')
-    page, count = re.subn(
-        r'(<!-- house:start -->).*?(<!-- house:end -->)',
-        lambda match: match.group(1) + _house() + match.group(2),
-        page,
-        flags=re.DOTALL)
-    if count != 1:
-        raise ValueError(f'Expected one house marker pair, found {count}.')
-    _PAGE.write_text(page, encoding='utf-8')
+    _OUT.write_text(_house(), encoding='utf-8')
 
 
 if __name__ == '__main__':

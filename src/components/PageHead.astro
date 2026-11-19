@@ -1,0 +1,25 @@
+---
+import { url } from '../lib/site';
+
+interface Props {
+  title: string;
+  /** The page's name in the breadcrumb, when the heading is a sentence. */
+  name?: string;
+  lead?: string;
+  /** Pages above this one, nearest last. */
+  crumbs?: { href: string; label: string }[];
+}
+
+const { title, name = title, lead, crumbs = [] } = Astro.props;
+---
+
+<div class="page-head">
+  <nav class="crumbs" aria-label="Brødkrumme">
+    <a href={url()}>Forside</a>
+    {crumbs.map(({ href, label }) => <a href={url(href)}>{label}</a>)}
+    <span aria-current="page">{name}</span>
+  </nav>
+  <h1>{title}</h1>
+  {lead && <p class="lead">{lead}</p>}
+  <slot />
+</div>

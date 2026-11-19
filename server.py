@@ -1,40 +1,116 @@
 #!/usr/bin/env python3
-"""Serves the Den Sidste Skrue site and stores quote requests.
+"""Serves the built Den Sidste Skrue site and stores quote requests.
 
-Static files come from site/. POST /api/lead appends the request as one
-JSON line to leads.jsonl next to this file.
+Static files come from dist/ (run `npm run build` first). POST /api/lead
+takes the quote form as multipart/form-data and stores each request in its
+own folder under leads/: lead.json plus the attached photos and drawings.
 
 Usage: python3 server.py [port]
 """
 
 import datetime
+import email
+import email.message
+import email.policy
 import functools
 import http
 import http.server
 import json
 import pathlib
+import secrets
 import sys
 
 _ROOT = pathlib.Path(__file__).parent
-_LEADS = _ROOT / 'leads.jsonl'
-_MAX_BODY_BYTES = 10_000
-_FIELDS = ('task', 'details', 'timing', 'postcode', 'name', 'phone', 'email')
+_LEADS = _ROOT / 'leads'
+_FIELDS = (
+    'task', 'details', 'timing', 'address', 'postcode', 'name', 'phone',
+    'email')
+_MAX_FILES = 8
+_MAX_FILE_BYTES = 10 * 1024 * 1024
+_MAX_BODY_BYTES = _MAX_FILES * _MAX_FILE_BYTES + 1024 * 1024
+# The stored file gets its extension from the declared type, never from
+# the name the browser sent.
+_EXTENSIONS = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/webp': '.webp',
+    'image/heic': '.heic',
+    'image/heif': '.heif',
+    'application/pdf': '.pdf',
+}
 
 
-def _parse_lead(body: bytes) -> dict[str, str]:
-    """Returns the stored form of a submitted quote request.
+def _parts(
+    content_type: str,
+    body: bytes,
+) -> list[email.message.EmailMessage]:
+    """Returns the parts of a multipart/form-data request body.
 
     Raises:
-        ValueError: The body is not a JSON object with a name and a phone.
+        ValueError: The body is not multipart/form-data.
     """
-    data = json.loads(body)
-    if not isinstance(data, dict):
-        raise ValueError('Expected a JSON object.')
-    lead = {field: str(data.get(field, '')).strip() for field in _FIELDS}
-    if not lead['name'] or not lead['phone']:
+    header = f'Content-Type: {content_type}\r\n\r\n'.encode()
+    message = email.message_from_bytes(
+        header + body, policy=email.policy.HTTP)
+    if message.get_content_type() != 'multipart/form-data':
+        raise ValueError('Expected multipart/form-data.')
+    return list(message.iter_parts())
+
+
+def _read_lead(
+    parts: list[email.message.EmailMessage],
+) -> tuple[dict[str, object], list[tuple[str, bytes]], bool]:
+    """Splits a submitted form into the lead and its attached files.
+
+    Returns:
+        The lead as stored in lead.json, one (extension, content) pair per
+        attached file, and whether the hidden trap field was filled in.
+
+    Raises:
+        ValueError: A required field is missing, or a file is too large,
+          of a type we do not take, or one too many.
+    """
+    fields: dict[str, str] = {}
+    files: list[tuple[str, bytes]] = []
+    for part in parts:
+        name = part.get_param('name', header='content-disposition')
+        content = part.get_payload(decode=True)
+        if name is None or content is None:
+            raise ValueError('Malformed form part.')
+        if name != 'files':
+            fields[name] = content.decode('utf-8', 'replace').strip()
+            continue
+        kind = part.get_content_type()
+        if kind not in _EXTENSIONS:
+            raise ValueError(f'File type not accepted: {kind}')
+        if len(content) > _MAX_FILE_BYTES:
+            raise ValueError('A file is larger than 10 MB.')
+        files.append((_EXTENSIONS[kind], content))
+    if len(files) > _MAX_FILES:
+        raise ValueError(f'More than {_MAX_FILES} files.')
+    if not fields.get('name') or not fields.get('phone'):
         raise ValueError('Name and phone are required.')
+
+    answers = json.loads(fields.get('answers') or '{}')
+    if not isinstance(answers, dict):
+        raise ValueError('Answers must be a JSON object.')
     now = datetime.datetime.now().astimezone()
-    return {'received': now.isoformat(timespec='seconds'), **lead}
+    lead = {
+        'received': now.isoformat(timespec='seconds'),
+        **{field: fields.get(field, '') for field in _FIELDS},
+        'answers': {str(k): str(v) for k, v in answers.items()},
+    }
+    return lead, files, bool(fields.get('website'))
+
+
+def _store(lead: dict[str, object], files: list[tuple[str, bytes]]) -> None:
+    stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    folder = _LEADS / f'{stamp}-{secrets.token_hex(3)}'
+    folder.mkdir(parents=True)
+    for number, (extension, content) in enumerate(files, start=1):
+        (folder / f'bilag-{number}{extension}').write_bytes(content)
+    (folder / 'lead.json').write_text(
+        json.dumps(lead, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
 class _Handler(http.server.SimpleHTTPRequestHandler):
@@ -46,19 +122,23 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
             self.send_error(http.HTTPStatus.BAD_REQUEST)
             return
         try:
-            lead = _parse_lead(self.rfile.read(length))
+            lead, files, trapped = _read_lead(_parts(
+                self.headers.get('Content-Type', ''),
+                self.rfile.read(length)))
         except ValueError as e:
             self.send_error(http.HTTPStatus.BAD_REQUEST, str(e))
             return
-        with _LEADS.open('a', encoding='utf-8') as f:
-            f.write(json.dumps(lead, ensure_ascii=False) + '\n')
+        # A filled trap field means a script wrote the form, not a person,
+        # so it gets the same answer but nothing is kept.
+        if not trapped:
+            _store(lead, files)
         self.send_response(http.HTTPStatus.NO_CONTENT)
         self.end_headers()
 
 
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8040
-    handler = functools.partial(_Handler, directory=str(_ROOT / 'site'))
+    handler = functools.partial(_Handler, directory=str(_ROOT / 'dist'))
     with http.server.HTTPServer(('127.0.0.1', port), handler) as server:
         server.serve_forever()
 

@@ -1,0 +1,22 @@
+---
+import house from '../drawings/house.svg?raw';
+
+interface Props {
+  view?: 'ude' | 'inde';
+  /** A task to show lit up on a still drawing, as on a service page. */
+  lit?: string;
+}
+
+const { view = 'ude', lit } = Astro.props;
+const drawing = lit
+  ? house.replaceAll(`data-task="${lit}"`, `data-task="${lit}" data-lit`)
+  : house;
+---
+
+<div
+  class:list={['stage', { 'stage-still': lit }]}
+  id={lit ? undefined : 'stage'}
+  data-view={view}
+  aria-hidden="true"
+  set:html={drawing}
+/>

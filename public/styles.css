@@ -193,10 +193,22 @@ h2,
   text-decoration: none;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a[aria-current='page'] {
   text-decoration: underline;
   text-underline-offset: 6px;
   text-decoration-thickness: 1.5px;
+}
+
+.menu-button {
+  display: none;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .header-phone {
@@ -471,28 +483,37 @@ h2,
   }
 }
 
-.stage .part.is-active .fill,
-.stage .part.is-active .glass,
-.stage .part.is-active .roof {
+.stage .part:is(.is-active, [data-lit]) :is(.fill, .glass, .roof) {
   fill: var(--brass);
 }
 
-.stage .part.is-active .roof-edge {
+.stage .part:is(.is-active, [data-lit]) .roof-edge {
   fill: var(--brass-deep);
 }
 
-.stage .part.is-active .tile {
+.stage .part:is(.is-active, [data-lit]) .tile {
   stroke: var(--ink);
 }
 
-.stage .tag.is-active rect,
-.stage .tag[data-enter] rect {
+.stage .tag:is(.is-active, [data-lit], [data-enter]) rect {
   fill: var(--ink);
 }
 
-.stage .tag.is-active text,
-.stage .tag[data-enter] text {
+.stage .tag:is(.is-active, [data-lit], [data-enter]) text {
   fill: var(--paper);
+}
+
+/* On a service page the house stands still with one part lit. */
+.stage-still {
+  pointer-events: none;
+}
+
+.stage-still .tag:not([data-lit]) {
+  display: none;
+}
+
+.stage-still .outside :is(.part, .tag) {
+  animation: none;
 }
 
 .stage .door:hover .entrance {
@@ -585,9 +606,7 @@ h2,
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--card);
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .choice:hover,
@@ -614,12 +633,41 @@ h2,
   color: var(--muted);
 }
 
-.choice-link {
+.choice-name a {
+  text-decoration: none;
+}
+
+.choice-name a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+}
+
+.choice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
   margin-top: 10px;
+}
+
+.choice-link,
+.choice-more {
+  padding: 4px 0;
+  border: 0;
+  background: none;
   font-weight: 600;
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 6px;
+  cursor: pointer;
+}
+
+.choice-more {
+  color: var(--muted);
+}
+
+.choice-more:hover {
+  color: var(--ink);
 }
 
 /* Reasons */
@@ -882,6 +930,339 @@ h2,
   from {
     opacity: 0;
   }
+}
+
+/* Pages below the front page */
+
+.section-top {
+  padding-top: 56px;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.crumbs a {
+  text-underline-offset: 4px;
+}
+
+.crumbs a::after {
+  content: '/';
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.crumbs [aria-current] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.page-head h1 {
+  max-width: 15em;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.page-head .lead {
+  margin-top: 18px;
+}
+
+.group-title {
+  margin-top: 64px;
+  font-size: 1.9rem;
+}
+
+.group-title + .choices {
+  margin-top: 20px;
+}
+
+.prose {
+  max-width: 34em;
+  margin-top: 28px;
+  font-size: 1.15rem;
+}
+
+.prose p + p {
+  margin-top: 16px;
+}
+
+.prose h2 {
+  margin: 40px 0 10px;
+  font-size: 1.6rem;
+}
+
+.prose-large {
+  max-width: 31em;
+  margin-top: 36px;
+  font-size: 1.3rem;
+}
+
+.service {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.service-copy .actions {
+  margin-top: 32px;
+}
+
+.service-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 72px;
+}
+
+.ticks {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+  font-size: 1.15rem;
+}
+
+.ticks li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ticks .screw {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+.service-note {
+  max-width: 28em;
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.asks {
+  margin-top: 22px;
+  border-top: 1px solid rgb(28 58 46 / 0.22);
+}
+
+.asks li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgb(28 58 46 / 0.22);
+  font-weight: 500;
+}
+
+.more-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.more-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.more-links a:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.empty {
+  max-width: 720px;
+  margin-top: 48px;
+  padding: 44px;
+  border: 1.5px dashed #a9a087;
+  border-radius: 16px;
+}
+
+.empty h2 {
+  font-size: 1.9rem;
+}
+
+.empty p {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 1.15rem;
+}
+
+.empty .actions {
+  margin-top: 28px;
+}
+
+.projects,
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px 20px;
+  margin-top: 48px;
+}
+
+.project {
+  display: grid;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.project img,
+.gallery img,
+.before-after img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.project-name {
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.project-meta {
+  color: var(--muted);
+}
+
+.page-head .project-meta {
+  margin-top: 14px;
+}
+
+.before-after {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.before-after figcaption {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 72px;
+  margin-top: 28px;
+}
+
+.project-facts {
+  display: grid;
+  align-content: start;
+  gap: 36px;
+  margin-top: 28px;
+}
+
+.project-facts h2 {
+  font-size: 1.5rem;
+}
+
+.project-facts .ticks {
+  margin-top: 16px;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 44px 48px;
+  margin-top: 56px;
+}
+
+.values .screw {
+  width: 30px;
+  height: 30px;
+}
+
+.values h3 {
+  margin-top: 14px;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.values p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.contact-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.contact-card h2 {
+  font-size: 1.6rem;
+}
+
+.contact-card p {
+  color: var(--muted);
+}
+
+.contact-card-main {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.contact-card-main p {
+  color: var(--ink-soft);
+}
+
+.contact-card-main .button {
+  justify-self: start;
+  margin-top: 12px;
+}
+
+.contact-value {
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.footer-nav {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+
+.footer-nav a {
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
 }
 
 /* About */
@@ -1222,18 +1603,118 @@ h2,
   background: var(--brass);
 }
 
-.task-wide {
+/* An odd task at the end takes the whole row. */
+.task:last-child:nth-child(odd) {
   grid-column: 1 / -1;
+}
+
+#task-questions:empty {
+  display: none;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 14px;
+}
+
+.field-row-address {
+  grid-template-columns: minmax(0, 1fr) 130px;
+}
+
+.unit-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.unit-input input {
+  max-width: 130px;
+}
+
+.unit {
+  color: var(--muted);
+}
+
+.upload {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1.5px dashed #9aa59b;
+  border-radius: 10px;
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.upload:hover {
+  border-color: var(--ink);
+}
+
+.upload:focus-within {
+  outline: 3px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.field .upload input {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-title {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.upload-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.files {
+  display: grid;
+  gap: 6px;
+}
+
+.files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.files button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.fineprint a {
+  color: inherit;
 }
 
 .field {
   display: grid;
+  align-content: start;
   gap: 8px;
   margin-top: 22px;
-}
-
-.field-short input {
-  max-width: 160px;
 }
 
 .optional {
@@ -1416,12 +1897,48 @@ h2,
     display: none;
   }
 
+  .menu-button {
+    display: block;
+  }
+
+  /* The menu opens as a panel under the header. */
+  .header-row:has(.menu-button[aria-expanded='true']) .nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: grid;
+    gap: 0;
+    padding: 8px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    font-size: 1.2rem;
+  }
+
+  .nav a {
+    padding: 12px 0;
+  }
+
   .hero-grid,
   .reasons-grid,
   .about,
-  .area {
+  .area,
+  .service,
+  .service-lists,
+  .project-body,
+  .contact {
     grid-template-columns: minmax(0, 1fr);
     gap: 40px;
+  }
+
+  .contact {
+    gap: 16px;
+  }
+
+  .values,
+  .projects,
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .choices {
@@ -1559,8 +2076,17 @@ h2,
 @media (max-width: 560px) {
   .choices,
   .reasons,
-  .process {
+  .process,
+  .values,
+  .projects,
+  .gallery,
+  .before-after,
+  .field-row {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .empty {
+    padding: 28px;
   }
 
   .choices[data-view-list='ude'] .choice-other {

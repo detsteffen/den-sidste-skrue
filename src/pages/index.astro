@@ -1,0 +1,142 @@
+---
+import AreaCheck from '../components/AreaCheck.astro';
+import AreaMap from '../components/AreaMap.astro';
+import House from '../components/House.astro';
+import Offer from '../components/Offer.astro';
+import Screw from '../components/Screw.astro';
+import TaskCards from '../components/TaskCards.astro';
+import Base from '../layouts/Base.astro';
+import { allServices, site, url } from '../lib/site';
+
+const services = await allServices();
+const reasons = [
+  ['Ordentlighed', 'Vi holder, hvad vi lover.'],
+  ['Kvalitet', 'Vi går ikke på kompromis med detaljerne.'],
+  ['Personlig service', 'Direkte kontakt og klare aftaler.'],
+  ['Gennemtænkte løsninger', 'Vi finder den rigtige løsning til opgaven.'],
+];
+const steps = [
+  ['Du fortæller os om dit projekt', 'Vælg opgaven på huset, eller ring. Et par linjer er nok.'],
+  ['Vi gennemgår opgaven', 'Og finder den rigtige løsning sammen med dig.'],
+  ['Du modtager et tilbud', 'På skrift, så du ved, hvad du siger ja til.'],
+  ['Vi udfører arbejdet', 'Som aftalt, og med respekt for dit hjem.'],
+  ['Vi gennemgår resultatet sammen', 'Vi går først, når den sidste skrue er sat.'],
+];
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  name: site.name,
+  slogan: site.slogan,
+  url: new URL(url(), Astro.site).href,
+  telephone: site.phoneHref,
+  email: site.email,
+  founder: site.owner,
+  areaServed: { '@type': 'City', name: site.city },
+};
+---
+
+<Base
+  title={`Tømrer i ${site.city} – ${site.name}`}
+  description={`${site.slogan} ${site.trade} i ${site.city} og omegn: terrasser, tage, vinduer, tilbygninger, køkkener og badeværelser.`}
+  schema={business}
+>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>{site.slogan}</h1>
+        <p class="lead">Vi hjælper med alt fra mindre forbedringer til større renoveringer. Altid med fokus på kvalitet, ordentlighed og et resultat, vi kan stå inde for.</p>
+        <div class="actions">
+          <button type="button" class="button" data-open-quote>Få en pris</button>
+          <a class="button button-outline" href={url('vi-udfoerer/')}>Se hvad vi udfører</a>
+        </div>
+        <p class="hero-call">Eller ring til Kasper på <a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+      </div>
+
+      <div class="hero-house">
+        <div class="hero-house-top">
+          <p class="stage-hint">Peg på huset, og vælg det, du vil have lavet.</p>
+          <div class="segment" role="group" aria-label="Vis huset">
+            <button type="button" data-view-button="ude" aria-pressed="true">Udefra</button>
+            <button type="button" data-view-button="inde" aria-pressed="false">Indefra</button>
+          </div>
+        </div>
+        <House />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-first" id="hus">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Hvad skal vi hjælpe dig med?</h2>
+          <p class="section-lead">Vælg en opgave, og fortæl os om dit projekt. Det tager et par minutter.</p>
+        </div>
+        <div class="segment" role="group" aria-label="Vis opgaver">
+          <button type="button" data-view-button="ude" aria-pressed="true">Udvendigt</button>
+          <button type="button" data-view-button="inde" aria-pressed="false">Indvendigt</button>
+        </div>
+      </div>
+      <TaskCards services={services} group="ude" />
+      <TaskCards services={services} group="inde" hidden />
+    </div>
+  </section>
+
+  <section class="section section-panel" id="hvorfor">
+    <div class="wrap reasons-grid">
+      <h2 class="section-title">Hvorfor vælge {site.name}?</h2>
+      <ul class="reasons">
+        {reasons.map(([name, text]) => (
+          <li>
+            <Screw />
+            <h3>{name}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="forloeb">
+    <div class="wrap">
+      <h2 class="section-title">Fra første kontakt til sidste skrue</h2>
+      <ol class="process">
+        {steps.map(([name, text], index) => (
+          <li>
+            <Screw />
+            <span class="process-number">{index + 1}</span>
+            <h3>{name}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-panel" id="omraade">
+    <div class="wrap area">
+      <div class="area-copy">
+        <h2 class="section-title">Vi kører i hele {site.city}</h2>
+        <p>Fra Skødstrup i nord til Malling i syd, og ud til Harlev og Sabro i vest. Skriv dit postnummer, eller tryk på din bydel på kortet.</p>
+        <AreaCheck />
+      </div>
+      <AreaMap />
+    </div>
+  </section>
+
+  <section class="section" id="om">
+    <div class="wrap about">
+      <h2 class="section-title">Vi går op i detaljerne. Også dem, du måske ikke selv opdager.</h2>
+      <div class="about-copy">
+        <p>{site.name} er et tømrerfirma i {site.city}, startet af {site.owner}. Vi tager os af tømrerarbejde og flisearbejde, ude og inde.</p>
+        <p>Navnet er et løfte. En opgave er ikke færdig, før den sidste detalje er på plads, og vi tager ansvar for hele opgaven fra første skrue til sidste finish.</p>
+        <div class="actions">
+          <a class="button button-outline" href={url('om-os/')}>Mere om os</a>
+          <a class="text-link" href={`tel:${site.phoneHref}`}>Ring {site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Offer />
+</Base>

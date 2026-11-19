@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the Aarhus area map and writes it into site/index.html.
+"""Draws the Aarhus area map and writes it to src/drawings/map.svg.
 
 The shapes come from tools/aarhus-map.json: municipality borders with the
 real coastline, lakes, the motorway and place positions, reduced from
@@ -15,10 +15,9 @@ from collections.abc import Sequence
 import json
 import math
 import pathlib
-import re
 
 _TOOLS = pathlib.Path(__file__).parent
-_PAGE = _TOOLS.parent / 'site' / 'index.html'
+_OUT = _TOOLS.parent / 'src/drawings/map.svg'
 _PX_PER_DEGREE = 2000
 _KM_PER_DEGREE = 111.32
 
@@ -148,15 +147,7 @@ def _map() -> str:
 
 
 def main():
-    page = _PAGE.read_text(encoding='utf-8')
-    page, count = re.subn(
-        r'(<!-- map:start -->).*?(<!-- map:end -->)',
-        lambda match: match.group(1) + _map() + match.group(2),
-        page,
-        flags=re.DOTALL)
-    if count != 1:
-        raise ValueError(f'Expected one map marker pair, found {count}.')
-    _PAGE.write_text(page, encoding='utf-8')
+    _OUT.write_text(_map(), encoding='utf-8')
 
 
 if __name__ == '__main__':

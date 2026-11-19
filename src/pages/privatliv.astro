@@ -1,0 +1,35 @@
+---
+import PageHead from '../components/PageHead.astro';
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+---
+
+<Base
+  title={`Privatliv – ${site.name}`}
+  description={`Sådan behandler ${site.name} de oplysninger, du giver os, når du beder om en pris.`}
+>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead title="Privatliv" lead="Kort fortalt: vi bruger kun dine oplysninger til at svare på din henvendelse." />
+      <div class="prose">
+        <h2>Hvem er vi</h2>
+        <p>{site.name} v/ {site.owner}, CVR {site.cvr}, er ansvarlig for de oplysninger, du giver os. Du kan altid skrive til <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+        <h2>Hvad gemmer vi</h2>
+        <p>Når du beder om en pris, gemmer vi det, du selv skriver i formularen: opgaven, din beskrivelse, eventuelle billeder og tegninger, adresse og postnummer samt navn, telefonnummer og e-mail.</p>
+
+        <h2>Hvad bruger vi det til</h2>
+        <p>Vi bruger oplysningerne til at kontakte dig og give dig et tilbud på opgaven. Vi giver dem ikke videre til andre og bruger dem ikke til markedsføring.</p>
+
+        <h2>Hvor længe</h2>
+        <p>Bliver det til en opgave, gemmer vi oplysningerne, så længe vi har brug for dem til opgaven og det, bogføringsloven kræver. Bliver det ikke til noget, sletter vi din henvendelse senest efter 12 måneder.</p>
+
+        <h2>Dine rettigheder</h2>
+        <p>Du kan få at vide, hvad vi har gemt om dig, få det rettet eller få det slettet. Skriv til os, så klarer vi det. Du kan også klage til Datatilsynet.</p>
+
+        <h2>Cookies og statistik</h2>
+        <p>Siden sætter ingen cookies og bruger ingen statistik fra tredjepart. Skrifter og billeder ligger på vores egen side og hentes ikke fra andre tjenester.</p>
+      </div>
+    </div>
+  </section>
+</Base>

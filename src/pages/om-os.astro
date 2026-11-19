@@ -1,0 +1,46 @@
+---
+import Offer from '../components/Offer.astro';
+import PageHead from '../components/PageHead.astro';
+import Screw from '../components/Screw.astro';
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+
+const values = [
+  ['Ordentlighed', 'Vi holder aftaler og siger til i god tid, hvis noget ændrer sig.'],
+  ['Kvalitet', 'Vi går op i detaljerne, også dem, du måske ikke selv opdager.'],
+  ['Personlig service', 'Du har direkte kontakt til den, der udfører arbejdet.'],
+  ['Faglig stolthed', 'Vi afleverer kun arbejde, vi selv kan stå inde for.'],
+  ['Respekt for dit hjem', 'Vi dækker af, rydder op og passer på det, der står i forvejen.'],
+];
+---
+
+<Base
+  title={`Om os – ${site.name}`}
+  description={`${site.name} er et tømrerfirma i ${site.city}, startet af ${site.owner}. Læs, hvad vi står for, og hvorfor firmaet hedder, som det gør.`}
+>
+  <section class="section section-top">
+    <div class="wrap about-page">
+      <PageHead title="Vi går først, når den sidste skrue er sat." name="Om os" />
+      <div class="prose prose-large">
+        <p>{site.name} er startet af {site.owner}, og navnet er ment bogstaveligt. En opgave er ikke færdig, når det meste er på plads. Den er færdig, når listerne sidder, fugerne er lavet, og der er ryddet op.</p>
+        <p>Vi laver tømrerarbejde og flisearbejde for boligejere i {site.city} og omegn, fra mindre forbedringer til større renoveringer. Du skal føle dig tryg fra første kontakt til sidste skrue, og det kræver, at vi er lige så omhyggelige med aftalerne som med arbejdet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-panel">
+    <div class="wrap">
+      <h2 class="section-title">Det står vi for</h2>
+      <ul class="values">
+        {values.map(([name, text]) => (
+          <li>
+            <Screw />
+            <h3>{name}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <Offer />
+</Base>

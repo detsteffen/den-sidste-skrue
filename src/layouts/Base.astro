@@ -1,0 +1,105 @@
+---
+import QuoteDialog from '../components/QuoteDialog.astro';
+import Screw from '../components/Screw.astro';
+import { allServices, site, url } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Structured data for search engines, as a schema.org object. */
+  schema?: Record<string, unknown>;
+}
+
+const { title, description, schema } = Astro.props;
+const services = await allServices();
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const nav = [
+  { href: 'vi-udfoerer/', label: 'Vi udfører' },
+  { href: 'projekter/', label: 'Projekter' },
+  { href: 'om-os/', label: 'Om os' },
+  { href: 'kontakt/', label: 'Kontakt' },
+];
+const mark =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23B8892F'/%3E%3Cpath d='M50 19 59.5 33.55 76.85 34.5 69 50 76.85 65.5 59.5 66.45 50 81 40.5 66.45 23.15 65.5 31 50 23.15 34.5 40.5 33.55z' fill='%23F6F1E4' stroke='%23F6F1E4' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E";
+---
+
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {!site.indexable && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#1C3A2E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="da_DK" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <link rel="icon" href={mark} />
+    <link rel="preload" href={url('fonts/fraunces-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={url('fonts/inter-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href={url('styles.css')} />
+    {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <svg class="sprite" aria-hidden="true">
+      <symbol id="screw" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50" fill="currentColor"></circle>
+        <path class="screw-star" d="M50 19 59.5 33.55 76.85 34.5 69 50 76.85 65.5 59.5 66.45 50 81 40.5 66.45 23.15 65.5 31 50 23.15 34.5 40.5 33.55z"></path>
+      </symbol>
+    </svg>
+
+    <header class="header">
+      <div class="wrap header-row">
+        <a class="brand" href={url()} aria-label={`${site.name}, til forsiden`}><Screw />{site.name}</a>
+        <nav class="nav" id="site-nav" aria-label="Sider">
+          {nav.map(({ href, label }) => (
+            <a href={url(href)} aria-current={Astro.url.pathname.startsWith(url(href)) ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+        <a class="header-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
+        <button type="button" class="button button-small" data-open-quote>Få en pris</button>
+        <button type="button" class="menu-button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-row">
+        <div class="footer-brand">
+          <p class="brand"><Screw />{site.name}</p>
+          <p>{site.slogan}</p>
+        </div>
+        <ul class="footer-nav">
+          {nav.map(({ href, label }) => <li><a href={url(href)}>{label}</a></li>)}
+          <li><a href={url('privatliv/')}>Privatliv</a></li>
+        </ul>
+        <div>
+          <p>v/ {site.owner}</p>
+          <p>CVR {site.cvr}</p>
+          <p>{site.trade} i {site.city} og omegn</p>
+        </div>
+        <div>
+          <p><a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+          <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p>© 2026 {site.name}</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="mobile-bar" id="mobile-bar">
+      <a class="button button-outline" href={`tel:${site.phoneHref}`}>Ring</a>
+      <button type="button" class="button" data-open-quote>Få en pris</button>
+    </div>
+
+    <QuoteDialog services={services} />
+    <script is:inline src={url('app.js')}></script>
+  </body>
+</html>

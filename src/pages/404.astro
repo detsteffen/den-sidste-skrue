@@ -1,0 +1,17 @@
+---
+import PageHead from '../components/PageHead.astro';
+import Base from '../layouts/Base.astro';
+import { site, url } from '../lib/site';
+---
+
+<Base title={`Siden findes ikke – ${site.name}`} description="Siden findes ikke.">
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead title="Siden findes ikke" lead="Adressen er måske skrevet forkert, eller siden er flyttet." />
+      <div class="actions">
+        <a class="button" href={url()}>Til forsiden</a>
+        <a class="button button-outline" href={url('vi-udfoerer/')}>Se hvad vi udfører</a>
+      </div>
+    </div>
+  </section>
+</Base>

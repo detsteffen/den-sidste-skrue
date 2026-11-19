@@ -1,0 +1,77 @@
+---
+import { render } from 'astro:content';
+import House from '../../components/House.astro';
+import Offer from '../../components/Offer.astro';
+import PageHead from '../../components/PageHead.astro';
+import Screw from '../../components/Screw.astro';
+import Base from '../../layouts/Base.astro';
+import { allServices, site, url, type Service } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const services = await allServices();
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service, services },
+  }));
+}
+
+interface Props {
+  service: Service;
+  services: Service[];
+}
+
+const { service, services } = Astro.props;
+const { data } = service;
+const { Content } = await render(service);
+const others = services.filter(
+  (other) => other.data.group === data.group && other.id !== service.id,
+);
+---
+
+<Base title={`${data.seoTitle} – ${site.name}`} description={data.description}>
+  <section class="section section-top">
+    <div class="wrap service">
+      <div class="service-copy">
+        <PageHead title={data.title} lead={data.summary} crumbs={[{ href: 'vi-udfoerer/', label: 'Vi udfører' }]} />
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="actions">
+          <button type="button" class="button" data-open-quote data-task={data.task}>Få en pris på {data.title.toLowerCase()}</button>
+          <a class="text-link" href={`tel:${site.phoneHref}`}>Ring {site.phone}</a>
+        </div>
+      </div>
+      <House view={data.group} lit={data.task} />
+    </div>
+  </section>
+
+  <section class="section section-panel">
+    <div class="wrap service-lists">
+      <div>
+        <h2 class="section-title">Typiske opgaver</h2>
+        <ul class="ticks">
+          {data.typical.map((item) => <li><Screw />{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="section-title">Det spørger vi om</h2>
+        <p class="service-note">Så kan vi give dig en pris, der passer til opgaven. Du kan springe det over, du ikke ved endnu.</p>
+        <ul class="asks">
+          {data.questions.map(({ label }) => <li>{label}</li>)}
+          <li>Hvornår skal det laves?</li>
+          <li>Har du billeder eller tegninger?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title">{data.group === 'ude' ? 'Andre udvendige opgaver' : 'Andre indvendige opgaver'}</h2>
+      <ul class="more-links">
+        {others.map((other) => <li><a href={url(`vi-udfoerer/${other.id}/`)}>{other.data.title}</a></li>)}
+      </ul>
+    </div>
+  </section>
+  <Offer />
+</Base>
