@@ -1,8 +1,10 @@
 ---
 import Offer from '../components/Offer.astro';
 import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
 import Screw from '../components/Screw.astro';
 import Base from '../layouts/Base.astro';
+import marking from '../assets/stemning/opmaerkning.jpg';
 import { site } from '../lib/site';
 
 const values = [
@@ -21,6 +23,7 @@ const values = [
   <section class="section section-top">
     <div class="wrap about-page">
       <PageHead title="Vi går først, når den sidste skrue er sat." name="Om os" />
+      <Photo src={marking} alt="Et bræt bliver mærket op med blyant" width={1000} height={1000} />
       <div class="prose prose-large">
         <p>{site.name} er startet af {site.owner}, og navnet er ment bogstaveligt. En opgave er ikke færdig, når det meste er på plads. Den er færdig, når listerne sidder, fugerne er lavet, og der er ryddet op.</p>
         <p>Vi laver tømrerarbejde og flisearbejde for boligejere i {site.city} og omegn, fra mindre forbedringer til større renoveringer. Du skal føle dig tryg fra første kontakt til sidste skrue, og det kræver, at vi er lige så omhyggelige med aftalerne som med arbejdet.</p>

@@ -599,13 +599,12 @@ h2,
 }
 
 .choice {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 8px;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--card);
+  overflow: hidden;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -615,9 +614,72 @@ h2,
   box-shadow: 0 0 0 1px var(--ink);
 }
 
+.choice img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 10 / 7;
+  object-fit: cover;
+}
+
+.choice-body {
+  display: grid;
+  flex: 1;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  padding: 22px 24px 24px;
+}
+
 .choice-other {
   border-style: dashed;
   background: transparent;
+}
+
+.stock-note {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Photos */
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.photo figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.photo-band {
+  margin-top: 64px;
+}
+
+.reasons-grid .photo {
+  margin-top: 36px;
+}
+
+.about-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 0 72px;
+  align-items: start;
+}
+
+.about-page .page-head,
+.about-page .prose {
+  grid-column: 1;
+}
+
+.about-page .photo {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 /* Seven outside tasks: the last card fills the rest of its row. */
@@ -1271,16 +1333,13 @@ h2,
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 80px;
-  align-items: start;
+  align-items: center;
 }
 
 .about-copy p {
   max-width: 30em;
-  font-size: 1.2rem;
-}
-
-.about-copy p + p {
   margin-top: 20px;
+  font-size: 1.2rem;
 }
 
 .about-copy .actions {
@@ -1919,9 +1978,16 @@ h2,
     padding: 12px 0;
   }
 
+  .about-page .photo {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 32px;
+  }
+
   .hero-grid,
   .reasons-grid,
   .about,
+  .about-page,
   .area,
   .service,
   .service-lists,

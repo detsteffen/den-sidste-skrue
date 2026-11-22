@@ -9,5 +9,6 @@
   "email": "kasper@densidsteskrue.dk",
   "cvr": "00 00 00 00",
   "indexable": false,
-  "leadEndpoint": "/api/lead"
+  "leadEndpoint": "/api/lead",
+  "stockPhotos": true
 }

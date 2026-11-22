@@ -3,9 +3,12 @@ import AreaCheck from '../components/AreaCheck.astro';
 import AreaMap from '../components/AreaMap.astro';
 import House from '../components/House.astro';
 import Offer from '../components/Offer.astro';
+import Photo from '../components/Photo.astro';
 import Screw from '../components/Screw.astro';
 import TaskCards from '../components/TaskCards.astro';
 import Base from '../layouts/Base.astro';
+import gable from '../assets/stemning/gavl.jpg';
+import marking from '../assets/stemning/opmaerkning.jpg';
 import { allServices, site, url } from '../lib/site';
 
 const services = await allServices();
@@ -84,7 +87,10 @@ const business = {
 
   <section class="section section-panel" id="hvorfor">
     <div class="wrap reasons-grid">
-      <h2 class="section-title">Hvorfor vælge {site.name}?</h2>
+      <div>
+        <h2 class="section-title">Hvorfor vælge {site.name}?</h2>
+        <Photo src={gable} alt="Husgavl med træbeklædning og tegltag" width={900} height={640} />
+      </div>
       <ul class="reasons">
         {reasons.map(([name, text]) => (
           <li>
@@ -126,8 +132,9 @@ const business = {
 
   <section class="section" id="om">
     <div class="wrap about">
-      <h2 class="section-title">Vi går op i detaljerne. Også dem, du måske ikke selv opdager.</h2>
+      <Photo src={marking} alt="Et bræt bliver mærket op med blyant" width={1000} height={760} />
       <div class="about-copy">
+        <h2 class="section-title">Vi går op i detaljerne. Også dem, du måske ikke selv opdager.</h2>
         <p>{site.name} er et tømrerfirma i {site.city}, startet af {site.owner}. Vi tager os af tømrerarbejde og flisearbejde, ude og inde.</p>
         <p>Navnet er et løfte. En opgave er ikke færdig, før den sidste detalje er på plads, og vi tager ansvar for hele opgaven fra første skrue til sidste finish.</p>
         <div class="actions">

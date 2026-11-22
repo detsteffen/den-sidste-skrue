@@ -3,8 +3,10 @@ import { render } from 'astro:content';
 import House from '../../components/House.astro';
 import Offer from '../../components/Offer.astro';
 import PageHead from '../../components/PageHead.astro';
+import Photo from '../../components/Photo.astro';
 import Screw from '../../components/Screw.astro';
 import Base from '../../layouts/Base.astro';
+import { servicePhoto } from '../../lib/photos';
 import { allServices, site, url, type Service } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -23,6 +25,7 @@ interface Props {
 const { service, services } = Astro.props;
 const { data } = service;
 const { Content } = await render(service);
+const photo = servicePhoto(service.id);
 const others = services.filter(
   (other) => other.data.group === data.group && other.id !== service.id,
 );
@@ -43,6 +46,11 @@ const others = services.filter(
       </div>
       <House view={data.group} lit={data.task} />
     </div>
+    {photo && (
+      <div class="wrap">
+        <Photo src={photo} alt="" width={1600} height={640} class="photo-band" />
+      </div>
+    )}
   </section>
 
   <section class="section section-panel">
