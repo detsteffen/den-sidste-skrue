@@ -1,12 +1,11 @@
 ---
 import Areas from '../components/Areas.astro';
+import Hero from '../components/Hero.astro';
 import Instagram from '../components/Instagram.astro';
-import Offer from '../components/Offer.astro';
-import Photo from '../components/Photo.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import Reviews from '../components/Reviews.astro';
 import Base from '../layouts/Base.astro';
-import { photo, site, url } from '../lib/site';
+import { site, url } from '../lib/site';
 
 const business = {
   '@context': 'https://schema.org',
@@ -26,23 +25,9 @@ const business = {
   description={`${site.slogan}. Tømrerarbejde, flisearbejde og badeværelsesrenovering i ${site.city} og omegn. Få et uforpligtende tilbud.`}
   schema={business}
 >
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1>{site.slogan}.</h1>
-        <p class="lead">{site.name} er et tømrerfirma i {site.city}. Vi laver tømrerarbejde, flisearbejde og badeværelser for boligejere, fra mindre forbedringer til større renoveringer.</p>
-        <div class="actions">
-          <a class="button" href="#pris">Få et uforpligtende tilbud</a>
-          <a class="button button-outline" href={`tel:${site.phoneHref}`}>Ring: {site.phone}</a>
-        </div>
-      </div>
-      <Photo src={photo('opmaerkning')} alt="Et bræt bliver mærket op med blyant" width={1200} height={1000} eager />
-    </div>
-  </section>
-
+  <Hero />
   <QuoteForm />
   <Reviews />
   <Instagram />
   <Areas />
-  <Offer />
 </Base>

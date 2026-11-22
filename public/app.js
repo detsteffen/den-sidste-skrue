@@ -3,12 +3,11 @@ const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const FILE_TYPES = /^(image\/(jpeg|png|webp|heic|heif)|application\/pdf)$/;
 // Some browsers report no type for photos taken on an iPhone.
 const HEIC_NAME = /\.hei[cf]$/i;
+const PREVIEWABLE = /^image\/(jpeg|png|webp)$/;
+const SLIDE_MS = 5500;
 
-const menuButton = document.querySelector('.menu-button');
-menuButton.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') !== 'true';
-  menuButton.setAttribute('aria-expanded', open);
-});
+const root = document.documentElement;
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function element(tag, properties, children = []) {
   const node = Object.assign(document.createElement(tag), properties);
@@ -16,7 +15,148 @@ function element(tag, properties, children = []) {
   return node;
 }
 
+function setUpHeader() {
+  const button = document.querySelector('.menu-button');
+
+  function setOpen(open) {
+    root.classList.toggle('menu-open', open);
+    button.setAttribute('aria-expanded', open);
+  }
+
+  button.addEventListener('click', () => {
+    setOpen(!root.classList.contains('menu-open'));
+  });
+  // A link to a section of the page that is already open does not reload it.
+  document.getElementById('site-nav').addEventListener('click', (event) => {
+    if (event.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && root.classList.contains('menu-open')) {
+      setOpen(false);
+      button.focus();
+    }
+  });
+
+  new IntersectionObserver(([entry]) => {
+    root.classList.toggle('is-scrolled', !entry.isIntersecting);
+  }).observe(document.getElementById('top-sentinel'));
+}
+
+function setUpReveals() {
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        observer.unobserve(entry.target);
+      }
+    }
+  }, {rootMargin: '0px 0px -8% 0px'});
+  for (const node of document.querySelectorAll('[data-reveal]')) {
+    observer.observe(node);
+  }
+}
+
+// The bar at the bottom of a phone steps aside wherever the page shows the
+// same buttons itself.
+function setUpMobileBar() {
+  const shown = new Set();
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        shown.add(entry.target);
+      } else {
+        shown.delete(entry.target);
+      }
+    }
+    root.classList.toggle('bar-hidden', shown.size > 0);
+  });
+  for (const node of document.querySelectorAll('[data-own-cta]')) {
+    observer.observe(node);
+  }
+}
+
+function setUpSlides(arch) {
+  const slides = [...arch.querySelectorAll('.slide')];
+  const dots = [...arch.querySelectorAll('.slide-dots button')];
+  let current = 0;
+  let timer;
+
+  function show(index) {
+    current = index % slides.length;
+    slides.forEach((slide, position) => {
+      slide.classList.toggle('is-current', position === current);
+    });
+    dots.forEach((dot, position) => {
+      if (position === current) {
+        dot.setAttribute('aria-current', 'true');
+      } else {
+        dot.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  function pause() {
+    clearInterval(timer);
+  }
+
+  function play() {
+    pause();
+    if (!calm) timer = setInterval(() => show(current + 1), SLIDE_MS);
+  }
+
+  dots.forEach((dot, position) => {
+    dot.addEventListener('click', () => show(position));
+  });
+  arch.addEventListener('pointerenter', pause);
+  arch.addEventListener('pointerleave', play);
+  arch.addEventListener('focusin', pause);
+  arch.addEventListener('focusout', play);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      pause();
+    } else {
+      play();
+    }
+  });
+  play();
+}
+
+function setUpPanels(container) {
+  const panels = [...container.querySelectorAll('.panel')];
+
+  function open(panel) {
+    for (const other of panels) {
+      other.classList.toggle('is-open', other === panel);
+      other.querySelector('.panel-open')
+        .setAttribute('aria-expanded', other === panel);
+    }
+  }
+
+  for (const panel of panels) {
+    panel.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') open(panel);
+    });
+    panel.querySelector('.panel-open').addEventListener('click', () => {
+      open(panel);
+      // The button leaves with the click, so focus moves on to the link.
+      panel.querySelector('a').focus({preventScroll: true});
+    });
+  }
+}
+
+function thumbnail(file) {
+  if (!PREVIEWABLE.test(file.type)) {
+    const label = file.type === 'application/pdf' ? 'PDF' : 'HEIC';
+    return element('span', {className: 'file-thumb', textContent: label});
+  }
+  const image = element('img', {className: 'file-thumb', alt: ''});
+  image.addEventListener('load', () => URL.revokeObjectURL(image.src));
+  image.src = URL.createObjectURL(file);
+  return image;
+}
+
 function setUpQuoteForm(form) {
+  const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('files');
   const fileList = document.getElementById('file-list');
   const filesError = document.getElementById('files-error');
@@ -33,22 +173,23 @@ function setUpQuoteForm(form) {
 
   function showFiles() {
     fileList.replaceChildren(...files.map((file) => {
-      const remove = element('button', {type: 'button', textContent: 'Fjern'});
+      const remove = element('button', {type: 'button', textContent: '×'});
       remove.setAttribute('aria-label', `Fjern ${file.name}`);
       remove.addEventListener('click', () => {
         files = files.filter((kept) => kept !== file);
         showFiles();
       });
       return element('li', {}, [
+        thumbnail(file),
         element('span', {className: 'file-name', textContent: file.name}),
         remove,
       ]);
     }));
   }
 
-  fileInput.addEventListener('change', () => {
+  function addFiles(added) {
     const refused = [];
-    for (const file of fileInput.files) {
+    for (const file of added) {
       const allowed = FILE_TYPES.test(file.type) || HEIC_NAME.test(file.name);
       if (allowed && file.size <= MAX_FILE_BYTES && files.length < MAX_FILES) {
         files.push(file);
@@ -56,12 +197,30 @@ function setUpQuoteForm(form) {
         refused.push(file.name);
       }
     }
-    fileInput.value = '';
     filesError.hidden = !refused.length;
     filesError.textContent =
       `Ikke tilføjet: ${refused.join(', ')}. Vi tager imod op til ` +
       `${MAX_FILES} billeder eller PDF-filer på højst 10 MB hver.`;
     showFiles();
+  }
+
+  fileInput.addEventListener('change', () => {
+    addFiles(fileInput.files);
+    fileInput.value = '';
+  });
+  for (const type of ['dragenter', 'dragover']) {
+    dropzone.addEventListener(type, (event) => {
+      event.preventDefault();
+      dropzone.classList.add('is-over');
+    });
+  }
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('is-over');
+  });
+  dropzone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dropzone.classList.remove('is-over');
+    addFiles(event.dataTransfer.files);
   });
 
   // A field that was marked wrong is cleared as soon as it is corrected.
@@ -114,14 +273,23 @@ function setUpQuoteForm(form) {
 }
 
 function setUpReviews(reviews) {
-  for (const button of document.querySelectorAll('[data-carousel]')) {
-    button.addEventListener('click', () => {
-      const step = reviews.firstElementChild.getBoundingClientRect().width + 20;
-      reviews.scrollBy({left: Number(button.dataset.carousel) * step});
-    });
-  }
+  const buttons = document.querySelector('.carousel-buttons');
+  buttons.hidden = reviews.scrollWidth <= reviews.clientWidth;
+  buttons.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-carousel]');
+    if (!button) return;
+    const step = reviews.firstElementChild.getBoundingClientRect().width + 20;
+    reviews.scrollBy({left: Number(button.dataset.carousel) * step});
+  });
 }
 
+setUpHeader();
+setUpReveals();
+setUpMobileBar();
+const slideArch = document.getElementById('slides');
+if (slideArch) setUpSlides(slideArch);
+const panelRow = document.getElementById('panels');
+if (panelRow) setUpPanels(panelRow);
 const quoteForm = document.getElementById('quote');
 if (quoteForm) setUpQuoteForm(quoteForm);
 const reviewList = document.getElementById('reviews');

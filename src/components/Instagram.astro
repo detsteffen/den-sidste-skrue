@@ -8,17 +8,15 @@ const posts = profile ? await latestPosts() : [];
 ---
 
 {profile && (
-  <section class="section" id="instagram">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">Følg med og se, hvad vi laver.</h2>
-          <p class="section-lead">Se vores seneste projekter og følg med i hverdagen hos {site.name}.</p>
-        </div>
+  <section class="section section-panel" id="instagram">
+    <div class="wrap split">
+      <div class="split-head" data-reveal>
+        <h2 class="section-title">Følg med og se, hvad vi laver.</h2>
+        <p class="section-lead">Se vores seneste projekter og følg med i hverdagen hos {site.name}.</p>
         <a class="button button-outline" href={profile} rel="noopener">Følg os på Instagram</a>
       </div>
       {posts.length > 0 ? (
-        <ul class="insta">
+        <ul class="insta" data-reveal>
           {posts.map((post) => (
             <li>
               <a href={post.link} rel="noopener">
@@ -28,7 +26,7 @@ const posts = profile ? await latestPosts() : [];
           ))}
         </ul>
       ) : (
-        <a class="insta-fallback" href={profile} rel="noopener">
+        <a class="insta-fallback" href={profile} rel="noopener" data-reveal>
           <Screw />
           <span>Vi lægger løbende billeder af vores arbejde på Instagram. Se dem dér.</span>
         </a>

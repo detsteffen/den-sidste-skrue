@@ -1,0 +1,20 @@
+---
+import { site } from '../lib/site';
+
+// A stamp with the company name set round the screw head. The text turns
+// slowly; the screw stays put.
+const text = `${site.name} • Tømrer i ${site.city} • `.toUpperCase();
+---
+
+<div class="seal" aria-hidden="true">
+  <svg viewBox="0 0 160 160">
+    <defs>
+      <path id="seal-ring" d="M80 80m-59 0a59 59 0 1 1 118 0a59 59 0 1 1-118 0"></path>
+    </defs>
+    <circle class="seal-disc" cx="80" cy="80" r="79"></circle>
+    <g class="seal-text">
+      <text><textPath href="#seal-ring" textLength="364">{text}</textPath></text>
+    </g>
+    <use class="seal-screw" href="#screw" x="54" y="54" width="52" height="52"></use>
+  </svg>
+</div>

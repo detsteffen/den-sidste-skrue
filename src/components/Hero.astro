@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import { photo, site } from '../lib/site';
+import Rings from './Rings.astro';
+import Screw from './Screw.astro';
+import Seal from './Seal.astro';
+
+// The photos in the arch show the range of work, each named by its label.
+const slides = [
+  { photo: 'opmaerkning', label: 'Tømrerarbejde', alt: 'Et bræt bliver mærket op med blyant' },
+  { photo: 'terrasse', label: 'Træterrasser', alt: 'Træterrasse ved et hus' },
+  { photo: 'badevaerelse-2', label: 'Flisearbejde', alt: 'Badeværelse med fliser på gulv og væg' },
+  { photo: 'vinduer', label: 'Vinduer og døre', alt: 'Trævindue set indefra' },
+];
+const facts = [
+  ['Ordentlighed', 'Vi holder, hvad vi lover.'],
+  ['Kvalitet', 'Vi går ikke på kompromis med detaljerne.'],
+  ['Personlig service', 'Direkte kontakt og klare aftaler.'],
+];
+---
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>{site.slogan}.</h1>
+      <p class="lead">{site.name} er et tømrerfirma i {site.city}. Vi laver tømrerarbejde, flisearbejde og badeværelser for boligejere, fra mindre forbedringer til større renoveringer.</p>
+      <div class="actions" data-own-cta>
+        <a class="button" href="#pris">Få et uforpligtende tilbud</a>
+        <a class="button button-outline" href={`tel:${site.phoneHref}`}>Ring: {site.phone}</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <Rings />
+
+      <div class="arch" id="slides">
+        {slides.map((slide, index) => (
+          <figure class:list={['slide', { 'is-current': index === 0 }]}>
+            <Image src={photo(slide.photo)} alt={slide.alt} width={1040} height={1230} widths={[560, 1040]} sizes="(max-width: 820px) 90vw, 500px" fit="cover" loading={index === 0 ? 'eager' : 'lazy'} />
+            <figcaption>{slide.label}</figcaption>
+          </figure>
+        ))}
+        <div class="slide-dots">
+          {slides.map((slide, index) => (
+            <button type="button" aria-label={`Vis billede ${index + 1}: ${slide.label}`} aria-current={index === 0 ? 'true' : undefined}></button>
+          ))}
+        </div>
+      </div>
+      <Seal />
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="facts">
+      {facts.map(([name, text]) => (
+        <li>
+          <Screw />
+          <p><strong>{name}</strong>{text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

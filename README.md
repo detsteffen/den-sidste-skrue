@@ -25,8 +25,9 @@ in a folder under `leads/`.
 | Customer reviews | `src/data/reviews.json` |
 | Photos | `src/assets/fotos/` |
 | Pages | `src/pages/` |
-| Header and footer | `src/layouts/Base.astro` |
+| Header, closing line and footer | `src/layouts/Base.astro` |
 | The sections of the front page | `src/components/` |
+| The photos in the arch at the top of the front page | `slides` in `src/components/Hero.astro` |
 | Styles and behaviour | `public/styles.css`, `public/app.js` |
 
 ## Common changes
@@ -43,11 +44,19 @@ in a folder under `leads/`.
   posts, and it falls back to the plain link if the feed cannot be read.
 - **Replace a stock photo:** put a photo with the same file name in
   `src/assets/fotos/`. Set `stockPhotos` to `false` in `site.json` when none
-  are left, which removes the "Eksempelbillede" captions.
+  are left, which removes the note about example photos from the footer.
 - **Change the work areas:** edit `src/data/areas.json`. Each `photo` is a
-  file name in `src/assets/fotos/` without `.jpg`.
+  file name in `src/assets/fotos/` without `.jpg`. A `\u00ad` in a title is a
+  soft hyphen: it marks where a long word may break on a narrow screen.
 - **Go live:** fill in `src/data/site.json` and set `indexable` to `true`.
   Until then every page carries `noindex`.
+
+## Motion
+
+All movement is an extra layer in the last part of `public/styles.css`. It
+is switched off for visitors who ask their device for reduced motion, and
+the page is complete without JavaScript: sections that fade in as they are
+reached are only hidden when the script is running.
 
 ## Publishing
 

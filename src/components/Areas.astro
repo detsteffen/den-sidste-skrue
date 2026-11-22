@@ -5,26 +5,35 @@ import { areas, photo, site, url } from '../lib/site';
 
 <section class="section" id="vi-udfoerer">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <div>
         <h2 class="section-title">Vi udfører</h2>
         <p class="section-lead">Tømrerarbejde, flisearbejde og badeværelser for boligejere i {site.city} og omegn.</p>
       </div>
       <a class="button button-outline" href={url('#pris')}>Få et uforpligtende tilbud</a>
     </div>
-    <div class="areas">
-      {areas.map((area) => (
-        <article class="area-card">
-          <Image src={photo(area.photo)} alt="" width={900} height={640} fit="cover" />
-          <div class="area-card-body">
-            <h3><a href={url(`vi-udfoerer/#${area.id}`)}>{area.title}</a></h3>
-            <ul>
-              {area.items.map((item) => <li>{item.title}</li>)}
-            </ul>
+
+    <div class="panels" id="panels" data-reveal>
+      {areas.map((area, index) => (
+        <article class:list={['panel', { 'is-open': index === 0 }]}>
+          <Image src={photo(area.photo)} alt="" width={1100} height={900} fit="cover" />
+          <button type="button" class="panel-open" aria-expanded={index === 0 ? 'true' : 'false'} aria-controls={`panel-${area.id}`}>
+            <span class="visually-hidden">Vis {area.title}</span>
+          </button>
+          <div class="panel-text">
+            <h3>{area.title}</h3>
+            <div class="panel-more" id={`panel-${area.id}`}>
+              <div>
+                <p>{area.summary}</p>
+                <ul>
+                  {area.items.map((item) => <li>{item.title}</li>)}
+                </ul>
+                <a class="text-link" href={url(`vi-udfoerer/#${area.id}`)}>Se mere<span class="visually-hidden"> om {area.title.toLowerCase()}</span></a>
+              </div>
+            </div>
           </div>
         </article>
       ))}
     </div>
-    {site.stockPhotos && <p class="stock-note">Billederne er eksempler, indtil vi har vores egne klar.</p>}
   </div>
 </section>

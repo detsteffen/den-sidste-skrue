@@ -13,9 +13,9 @@ const list: Review[] = reviews;
 ---
 
 {list.length > 0 && (
-  <section class="section section-panel" id="anmeldelser">
+  <section class="section" id="anmeldelser">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <h2 class="section-title">Hvad synes vores kunder?</h2>
         <div class="carousel-buttons">
           <button type="button" data-carousel="-1" aria-label="Forrige anmeldelse">
@@ -26,12 +26,16 @@ const list: Review[] = reviews;
           </button>
         </div>
       </div>
-      <ul class="reviews" id="reviews" tabindex="0" aria-label="Kundeanmeldelser">
+      <ul class="reviews" id="reviews" tabindex="0" aria-label="Kundeanmeldelser" data-reveal>
         {list.map((review) => (
           <li class="review">
             <blockquote>{review.text}</blockquote>
-            {review.name && <p class="review-name">{review.name}</p>}
-            {review.source && <p class="review-source">{review.source}</p>}
+            {(review.name || review.source) && (
+              <p class="review-by">
+                {review.name && <strong>{review.name}</strong>}
+                {review.source && <span>{review.source}</span>}
+              </p>
+            )}
           </li>
         ))}
       </ul>

@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Offer from '../../components/Offer.astro';
 import PageHead from '../../components/PageHead.astro';
 import Base from '../../layouts/Base.astro';
 import { areas, photo, site, url } from '../../lib/site';
@@ -12,32 +11,38 @@ import { areas, photo, site, url } from '../../lib/site';
 >
   <section class="section section-top">
     <div class="wrap">
-      <PageHead title="Vi udfører" lead="Tømrerarbejde, flisearbejde og badeværelser. Find den opgave, der ligner din, og få et uforpligtende tilbud." />
+      <PageHead title="Vi udfører" lead="Tømrerarbejde, flisearbejde og badeværelser. Find den opgave, der ligner din, og få et uforpligtende tilbud.">
+        <nav class="jump" aria-label="Områder">
+          {areas.map((area) => <a href={`#${area.id}`}>{area.title}</a>)}
+        </nav>
+      </PageHead>
     </div>
   </section>
 
   {areas.map((area, index) => (
     <section class:list={['section', 'area-section', { 'section-panel': index % 2 === 0 }]} id={area.id}>
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <div>
             <h2 class="section-title">{area.title}</h2>
             <p class="section-lead">{area.summary}</p>
           </div>
-          <a class="button" href={url('#pris')}>Få et uforpligtende tilbud</a>
+          <a class="button button-outline" href={url('#pris')}>Få et uforpligtende tilbud</a>
         </div>
-        <ul class="jobs">
-          {area.items.map((item) => (
-            <li class="job">
-              <Image src={photo(item.photo)} alt="" width={900} height={640} fit="cover" />
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+        <ul class="jobs" data-count={area.items.length}>
+          {area.items.map((item, position) => (
+            <li class="job" data-reveal style={`--i:${position % 3}`}>
+              <div class="job-photo">
+                <Image src={photo(item.photo)} alt="" width={1100} height={720} fit="cover" />
+              </div>
+              <div class="job-text">
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </div>
             </li>
           ))}
         </ul>
-        {site.stockPhotos && <p class="stock-note">Billederne er eksempler, indtil vi har vores egne klar.</p>}
       </div>
     </section>
   ))}
-  <Offer />
 </Base>

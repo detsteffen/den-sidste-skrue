@@ -1,10 +1,10 @@
 ---
-import Offer from '../components/Offer.astro';
+import { Image } from 'astro:assets';
 import PageHead from '../components/PageHead.astro';
-import Photo from '../components/Photo.astro';
 import Screw from '../components/Screw.astro';
+import Seal from '../components/Seal.astro';
 import Base from '../layouts/Base.astro';
-import { photo, site } from '../lib/site';
+import { photo, site, url } from '../lib/site';
 
 const values = [
   ['Ordentlighed', 'Vi holder aftaler og siger til i god tid, hvis noget ændrer sig.'],
@@ -13,6 +13,13 @@ const values = [
   ['Faglig stolthed', 'Vi afleverer kun arbejde, vi selv kan stå inde for.'],
   ['Respekt for dit hjem', 'Vi dækker af, rydder op og passer på det, der står i forvejen.'],
 ];
+const steps = [
+  ['Du fortæller os om dit projekt', 'Skriv et par linjer i formularen, eller ring.'],
+  ['Vi gennemgår opgaven', 'Og finder den rigtige løsning sammen med dig.'],
+  ['Du modtager et tilbud', 'Så du ved, hvad du siger ja til, før vi går i gang.'],
+  ['Vi udfører arbejdet', 'Som aftalt, og med respekt for dit hjem.'],
+  ['Vi gennemgår resultatet sammen', 'Så alt er, som det skal være, før vi kører.'],
+];
 ---
 
 <Base
@@ -20,22 +27,33 @@ const values = [
   description={`${site.name} er et tømrerfirma i ${site.city}, startet af ${site.owner}. Læs, hvad vi står for, og hvorfor firmaet hedder, som det gør.`}
 >
   <section class="section section-top">
-    <div class="wrap about-page">
-      <PageHead title="Vi går først, når den sidste skrue er sat." name="Om os" />
-      <Photo src={photo('gavl')} alt="Husgavl med træbeklædning og tegltag" width={1000} height={1000} eager />
-      <div class="prose prose-large">
-        <p>{site.name} er startet af {site.owner}, og navnet er ment bogstaveligt. En opgave er ikke færdig, når det meste er på plads. Den er færdig, når listerne sidder, fugerne er lavet, og der er ryddet op.</p>
-        <p>Vi laver tømrerarbejde og flisearbejde for boligejere i {site.city} og omegn, fra mindre forbedringer til større renoveringer. Du skal føle dig tryg fra første kontakt til sidste skrue, og det kræver, at vi er lige så omhyggelige med aftalerne som med arbejdet.</p>
+    <div class="wrap about">
+      <div class="about-copy">
+        <PageHead title="Om os" lead={`${site.name} er startet af ${site.owner}, og navnet er ment bogstaveligt.`} />
+        <div class="prose prose-large">
+          <p>En opgave er ikke færdig, når det meste er på plads. Den er færdig, når listerne sidder, fugerne er lavet, og der er ryddet op.</p>
+          <p>Vi laver tømrerarbejde og flisearbejde for boligejere i {site.city} og omegn, fra mindre forbedringer til større renoveringer. Du skal føle dig tryg fra første kontakt til sidste skrue, og det kræver, at vi er lige så omhyggelige med aftalerne som med arbejdet.</p>
+        </div>
+        <div class="actions">
+          <a class="button" href={url('#pris')}>Få et uforpligtende tilbud</a>
+          <a class="button button-outline" href={url('vi-udfoerer/')}>Se hvad vi udfører</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="arch">
+          <Image src={photo('gavl')} alt="Husgavl med træbeklædning og tegltag" width={1040} height={1230} fit="cover" loading="eager" />
+        </div>
+        <Seal />
       </div>
     </div>
   </section>
 
   <section class="section section-panel">
-    <div class="wrap">
-      <h2 class="section-title">Det står vi for</h2>
+    <div class="wrap split">
+      <h2 class="section-title" data-reveal>Det står vi for</h2>
       <ul class="values">
-        {values.map(([name, text]) => (
-          <li>
+        {values.map(([name, text], index) => (
+          <li data-reveal style={`--i:${index}`}>
             <Screw />
             <h3>{name}</h3>
             <p>{text}</p>
@@ -44,5 +62,19 @@ const values = [
       </ul>
     </div>
   </section>
-  <Offer />
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title" data-reveal>Fra første kontakt til sidste skrue</h2>
+      <ol class="process">
+        {steps.map(([name, text], index) => (
+          <li data-reveal style={`--i:${index}`}>
+            <span class="process-mark">{index + 1 < steps.length ? index + 1 : <Screw />}</span>
+            <h3>{name}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 </Base>
