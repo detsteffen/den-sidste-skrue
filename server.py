@@ -22,9 +22,7 @@ import sys
 
 _ROOT = pathlib.Path(__file__).parent
 _LEADS = _ROOT / 'leads'
-_FIELDS = (
-    'task', 'details', 'timing', 'address', 'postcode', 'name', 'phone',
-    'email')
+_FIELDS = ('name', 'phone', 'email', 'postcode', 'details')
 _MAX_FILES = 8
 _MAX_FILE_BYTES = 10 * 1024 * 1024
 _MAX_BODY_BYTES = _MAX_FILES * _MAX_FILE_BYTES + 1024 * 1024
@@ -59,7 +57,7 @@ def _parts(
 
 def _read_lead(
     parts: list[email.message.EmailMessage],
-) -> tuple[dict[str, object], list[tuple[str, bytes]], bool]:
+) -> tuple[dict[str, str], list[tuple[str, bytes]], bool]:
     """Splits a submitted form into the lead and its attached files.
 
     Returns:
@@ -67,8 +65,8 @@ def _read_lead(
         attached file, and whether the hidden trap field was filled in.
 
     Raises:
-        ValueError: A required field is missing, or a file is too large,
-          of a type we do not take, or one too many.
+        ValueError: A field is missing, or a file is too large, of a type
+          we do not take, or one too many.
     """
     fields: dict[str, str] = {}
     files: list[tuple[str, bytes]] = []
@@ -88,22 +86,19 @@ def _read_lead(
         files.append((_EXTENSIONS[kind], content))
     if len(files) > _MAX_FILES:
         raise ValueError(f'More than {_MAX_FILES} files.')
-    if not fields.get('name') or not fields.get('phone'):
-        raise ValueError('Name and phone are required.')
+    missing = [field for field in _FIELDS if not fields.get(field)]
+    if missing:
+        raise ValueError(f'Missing fields: {", ".join(missing)}')
 
-    answers = json.loads(fields.get('answers') or '{}')
-    if not isinstance(answers, dict):
-        raise ValueError('Answers must be a JSON object.')
     now = datetime.datetime.now().astimezone()
     lead = {
         'received': now.isoformat(timespec='seconds'),
-        **{field: fields.get(field, '') for field in _FIELDS},
-        'answers': {str(k): str(v) for k, v in answers.items()},
+        **{field: fields[field] for field in _FIELDS},
     }
     return lead, files, bool(fields.get('website'))
 
 
-def _store(lead: dict[str, object], files: list[tuple[str, bytes]]) -> None:
+def _store(lead: dict[str, str], files: list[tuple[str, bytes]]) -> None:
     stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     folder = _LEADS / f'{stamp}-{secrets.token_hex(3)}'
     folder.mkdir(parents=True)

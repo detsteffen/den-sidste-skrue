@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import { areas, photo, site, url } from '../lib/site';
+---
+
+<section class="section" id="vi-udfoerer">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Vi udfører</h2>
+        <p class="section-lead">Tømrerarbejde, flisearbejde og badeværelser for boligejere i {site.city} og omegn.</p>
+      </div>
+      <a class="button button-outline" href={url('#pris')}>Få et uforpligtende tilbud</a>
+    </div>
+    <div class="areas">
+      {areas.map((area) => (
+        <article class="area-card">
+          <Image src={photo(area.photo)} alt="" width={900} height={640} fit="cover" />
+          <div class="area-card-body">
+            <h3><a href={url(`vi-udfoerer/#${area.id}`)}>{area.title}</a></h3>
+            <ul>
+              {area.items.map((item) => <li>{item.title}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+    {site.stockPhotos && <p class="stock-note">Billederne er eksempler, indtil vi har vores egne klar.</p>}
+  </div>
+</section>

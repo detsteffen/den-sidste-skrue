@@ -20,27 +20,32 @@ in a folder under `leads/`.
 
 | What | Where |
 |---|---|
-| Company name, phone, e-mail, CVR, `indexable` | `src/data/site.json` |
-| Services: text, typical jobs, form questions | `src/content/ydelser/*.md` |
-| Projects | `src/content/projekter/*.md`, images in `public/projekter/<name>/` |
+| Company name, phone, e-mail, CVR, Instagram, `indexable` | `src/data/site.json` |
+| Work areas and the jobs under each | `src/data/areas.json` |
+| Customer reviews | `src/data/reviews.json` |
+| Photos | `src/assets/fotos/` |
 | Pages | `src/pages/` |
-| Header, footer, quote dialog | `src/layouts/Base.astro`, `src/components/` |
+| Header and footer | `src/layouts/Base.astro` |
+| The sections of the front page | `src/components/` |
 | Styles and behaviour | `public/styles.css`, `public/app.js` |
-| The house and the map | `tools/draw_house.py`, `tools/draw_map.py` |
 
 ## Common changes
 
-- **Add a project:** copy `src/content/projekter/eksempel.md`, give it a new
-  name, set `draft: false`, and put its images in
-  `public/projekter/<that name>/`.
-- **Change what the form asks about a service:** edit `questions` in that
-  service's file. A question with `options` becomes a row of choices; one
-  with `unit` becomes a number.
-- **Add a service:** add a file in `src/content/ydelser/`. Its `task` is the
-  name the house, the cards and the form use, so a new part on the house
-  needs the same `task` in `tools/draw_house.py`.
-- **Redraw the house or the map:** change the measurements or towns in the
-  script and run it. It writes the drawing to `src/drawings/`.
+- **Add a review:** add `{"text": "…", "name": "…", "source": "Google"}` to
+  `src/data/reviews.json`. Only `text` is required. The section appears on
+  the front page once there is at least one review, and only real reviews
+  belong there.
+- **Turn on Instagram:** set `instagram.url` in `src/data/site.json` to the
+  profile's address, and the section appears with a link to it. Set
+  `instagram.feed` to a Behold JSON feed address
+  (`https://feeds.behold.so/…`) to show the latest posts. The feed is read
+  when the site is built, so the site has to be rebuilt to pick up new
+  posts, and it falls back to the plain link if the feed cannot be read.
+- **Replace a stock photo:** put a photo with the same file name in
+  `src/assets/fotos/`. Set `stockPhotos` to `false` in `site.json` when none
+  are left, which removes the "Eksempelbillede" captions.
+- **Change the work areas:** edit `src/data/areas.json`. Each `photo` is a
+  file name in `src/assets/fotos/` without `.jpg`.
 - **Go live:** fill in `src/data/site.json` and set `indexable` to `true`.
   Until then every page carries `noindex`.
 
@@ -49,6 +54,3 @@ in a folder under `leads/`.
 A push to `main` builds the site and publishes it to GitHub Pages through
 `.github/workflows/pages.yml`. `SITE_URL` and `SITE_BASE` set the address
 the build is made for; without them it builds for the site root.
-
-The map is drawn from OpenStreetMap data (© OpenStreetMap contributors,
-ODbL), reduced to `tools/aarhus-map.json`.

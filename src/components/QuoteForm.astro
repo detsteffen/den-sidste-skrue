@@ -1,0 +1,73 @@
+---
+import { site } from '../lib/site';
+import Screw from './Screw.astro';
+---
+
+<section class="section section-panel" id="pris">
+  <div class="wrap quote">
+    <div class="quote-copy">
+      <h2 class="section-title">Få et uforpligtende tilbud</h2>
+      <p class="section-lead">Fortæl kort om opgaven, så vender vi tilbage hurtigst muligt. Det tager et par minutter.</p>
+      <p class="quote-call">Vil du hellere ringe? <a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+    </div>
+
+    <div class="quote-card">
+      <form id="quote" data-endpoint={site.leadEndpoint} novalidate>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Navn</span>
+            <input name="name" autocomplete="name" required aria-describedby="name-error" />
+            <span class="error" id="name-error" hidden>Skriv dit navn.</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Telefonnummer</span>
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="phone-error" />
+            <span class="error" id="phone-error" hidden>Skriv et telefonnummer på mindst otte cifre.</span>
+          </label>
+        </div>
+
+        <div class="field-row field-row-wide">
+          <label class="field">
+            <span class="field-label">E-mail</span>
+            <input name="email" type="email" autocomplete="email" required aria-describedby="email-error" />
+            <span class="error" id="email-error" hidden>Skriv en e-mailadresse, vi kan svare på.</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Postnummer</span>
+            <input name="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" required aria-describedby="postcode-error" />
+            <span class="error" id="postcode-error" hidden>Skriv fire cifre.</span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Beskrivelse af arbejdet</span>
+          <textarea name="details" rows="4" maxlength="2000" required aria-describedby="details-error" placeholder="Fx nye vinduer i stueetagen eller en træterrasse på ca. 30 m²"></textarea>
+          <span class="error" id="details-error" hidden>Skriv et par ord om, hvad du gerne vil have lavet.</span>
+        </label>
+
+        <div class="field">
+          <span class="field-label" id="files-label">Billeder <span class="optional">valgfrit</span></span>
+          <label class="upload">
+            <input type="file" id="files" multiple accept="image/jpeg,image/png,image/webp,image/heic,application/pdf" aria-labelledby="files-label" aria-describedby="files-note files-error" />
+            <span class="upload-title">Vedhæft billeder</span>
+            <span class="upload-note" id="files-note">Op til 8 filer på højst 10 MB hver.</span>
+          </label>
+          <ul class="files" id="file-list"></ul>
+          <span class="error" id="files-error" role="alert" hidden></span>
+        </div>
+
+        <input class="visually-hidden" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <p class="error error-submit" id="submit-error" role="alert" hidden>Forespørgslen blev ikke sendt. Prøv igen, eller ring på {site.phone}.</p>
+        <button type="submit" class="button button-wide">Send forespørgsel</button>
+        <p class="fineprint">Vi bruger kun dine oplysninger til at svare på din henvendelse.</p>
+      </form>
+
+      <div class="quote-done" id="quote-done" tabindex="-1" hidden>
+        <Screw />
+        <h3>Forespørgsel modtaget</h3>
+        <p id="done-text"></p>
+      </div>
+    </div>
+  </div>
+</section>

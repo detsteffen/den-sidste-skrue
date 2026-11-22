@@ -1,14 +1,18 @@
 {
   "name": "Den Sidste Skrue",
   "owner": "Kasper Holm Bach",
-  "slogan": "Ordentligt håndværk til sidste detalje.",
+  "slogan": "Ordentligt håndværk til sidste detalje",
   "trade": "Tømrer- og flisearbejde",
   "city": "Aarhus",
-  "phone": "12 34 56 78",
-  "phoneHref": "+4512345678",
+  "phone": "30 56 34 80",
+  "phoneHref": "+4530563480",
   "email": "kasper@densidsteskrue.dk",
   "cvr": "00 00 00 00",
   "indexable": false,
+  "stockPhotos": true,
   "leadEndpoint": "/api/lead",
-  "stockPhotos": true
+  "instagram": {
+    "url": "",
+    "feed": ""
+  }
 }

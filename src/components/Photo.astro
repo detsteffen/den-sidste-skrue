@@ -9,12 +9,14 @@ interface Props {
   width: number;
   height: number;
   class?: string;
+  /** Load at once, for a photo at the top of a page. */
+  eager?: boolean;
 }
 
-const { src, alt, width, height, class: name } = Astro.props;
+const { src, alt, width, height, class: name, eager = false } = Astro.props;
 ---
 
 <figure class:list={['photo', name]}>
-  <Image src={src} alt={alt} width={width} height={height} fit="cover" />
+  <Image src={src} alt={alt} width={width} height={height} fit="cover" loading={eager ? 'eager' : 'lazy'} />
   {site.stockPhotos && <figcaption>Eksempelbillede</figcaption>}
 </figure>

@@ -1,27 +1,43 @@
 ---
+import { Image } from 'astro:assets';
 import Offer from '../../components/Offer.astro';
 import PageHead from '../../components/PageHead.astro';
-import TaskCards from '../../components/TaskCards.astro';
 import Base from '../../layouts/Base.astro';
-import { allServices, site } from '../../lib/site';
-
-const services = await allServices();
+import { areas, photo, site, url } from '../../lib/site';
 ---
 
 <Base
   title={`Vi udfører – ${site.name}`}
-  description={`${site.trade} i ${site.city} og omegn. Se, hvad vi udfører ude og inde: tag, facade, vinduer, terrasse, køkken, gulve, badeværelse og mere.`}
+  description={`Tømrerarbejde, flisearbejde og badeværelsesrenovering i ${site.city} og omegn: vinduer og døre, tag, renovering, gulve, terrasser og fliser.`}
 >
   <section class="section section-top">
     <div class="wrap">
-      <PageHead title="Vi udfører" lead="Tømrerarbejde og flisearbejde, ude og inde. Vælg en opgave for at læse mere, eller bed om en pris med det samme." />
-
-      <h2 class="group-title">Udvendigt</h2>
-      <TaskCards services={services} group="ude" />
-
-      <h2 class="group-title">Indvendigt</h2>
-      <TaskCards services={services} group="inde" />
+      <PageHead title="Vi udfører" lead="Tømrerarbejde, flisearbejde og badeværelser. Find den opgave, der ligner din, og få et uforpligtende tilbud." />
     </div>
   </section>
+
+  {areas.map((area, index) => (
+    <section class:list={['section', 'area-section', { 'section-panel': index % 2 === 0 }]} id={area.id}>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">{area.title}</h2>
+            <p class="section-lead">{area.summary}</p>
+          </div>
+          <a class="button" href={url('#pris')}>Få et uforpligtende tilbud</a>
+        </div>
+        <ul class="jobs">
+          {area.items.map((item) => (
+            <li class="job">
+              <Image src={photo(item.photo)} alt="" width={900} height={640} fit="cover" />
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ul>
+        {site.stockPhotos && <p class="stock-note">Billederne er eksempler, indtil vi har vores egne klar.</p>}
+      </div>
+    </section>
+  ))}
   <Offer />
 </Base>

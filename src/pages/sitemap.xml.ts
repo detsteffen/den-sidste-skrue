@@ -1,20 +1,10 @@
 import type { APIRoute } from 'astro';
-import { allServices, publishedProjects, url } from '../lib/site';
+import { url } from '../lib/site';
 
-export const GET: APIRoute = async ({ site }) => {
-  const services = await allServices();
-  const projects = await publishedProjects();
-  const paths = [
-    '',
-    'vi-udfoerer/',
-    ...services.map((service) => `vi-udfoerer/${service.id}/`),
-    'projekter/',
-    ...projects.map((project) => `projekter/${project.id}/`),
-    'om-os/',
-    'kontakt/',
-    'privatliv/',
-  ];
-  const entries = paths
+const PATHS = ['', 'vi-udfoerer/', 'om-os/', 'privatliv/'];
+
+export const GET: APIRoute = ({ site }) => {
+  const entries = PATHS
     .map((path) => `<url><loc>${new URL(url(path), site)}</loc></url>`)
     .join('');
   return new Response(

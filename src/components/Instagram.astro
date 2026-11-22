@@ -1,0 +1,38 @@
+---
+import { latestPosts } from '../lib/instagram';
+import { site } from '../lib/site';
+import Screw from './Screw.astro';
+
+const { url: profile } = site.instagram;
+const posts = profile ? await latestPosts() : [];
+---
+
+{profile && (
+  <section class="section" id="instagram">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Følg med og se, hvad vi laver.</h2>
+          <p class="section-lead">Se vores seneste projekter og følg med i hverdagen hos {site.name}.</p>
+        </div>
+        <a class="button button-outline" href={profile} rel="noopener">Følg os på Instagram</a>
+      </div>
+      {posts.length > 0 ? (
+        <ul class="insta">
+          {posts.map((post) => (
+            <li>
+              <a href={post.link} rel="noopener">
+                <img src={post.image} alt={post.alt} width={post.width} height={post.height} loading="lazy" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <a class="insta-fallback" href={profile} rel="noopener">
+          <Screw />
+          <span>Vi lægger løbende billeder af vores arbejde på Instagram. Se dem dér.</span>
+        </a>
+      )}
+    </div>
+  </section>
+)}

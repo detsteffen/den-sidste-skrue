@@ -1,0 +1,71 @@
+[
+  {
+    "id": "toemrerarbejde",
+    "title": "Tømrerarbejde",
+    "summary": "Fra et enkelt vindue til en hel ombygning. Vi tager os af træværket, ude og inde.",
+    "photo": "terrasse",
+    "items": [
+      {
+        "title": "Vinduer, døre og Velux-vinduer",
+        "text": "Udskiftning og montering, tæt og pænt afsluttet på begge sider af væggen.",
+        "photo": "vinduer"
+      },
+      {
+        "title": "Nyt tag og tagrenovering",
+        "text": "Nyt tag, ny tagbelægning og reparationer, med styr på undertag og inddækninger.",
+        "photo": "tag"
+      },
+      {
+        "title": "Renovering og ombygning",
+        "text": "Nye rum, flyttede vægge og ældre huse, der skal bringes op til i dag.",
+        "photo": "renovering"
+      },
+      {
+        "title": "Gulvlægning",
+        "text": "Nye trægulve på et underlag, der er rettet op, så gulvet ligger plant og stille.",
+        "photo": "gulve"
+      },
+      {
+        "title": "Træterrasser",
+        "text": "Terrasser med en bærende konstruktion, der holder til dansk vejr i mange år.",
+        "photo": "terrasse"
+      }
+    ]
+  },
+  {
+    "id": "flisearbejde",
+    "title": "Flisearbejde",
+    "summary": "Fliser bliver siddende i mange år, så opdeling, fuger og afslutninger skal være i orden fra start.",
+    "photo": "badevaerelse-2",
+    "items": [
+      {
+        "title": "Badeværelser",
+        "text": "Fliser på gulv og væg, med pæne snit ved kanter og hjørner.",
+        "photo": "badevaerelse-2"
+      },
+      {
+        "title": "Køkkener",
+        "text": "Fliser over køkkenbordet og på gulvet, tilpasset skabe og bordplade.",
+        "photo": "koekken"
+      },
+      {
+        "title": "Gulve og vægge",
+        "text": "Flisearbejde i entré, bryggers og andre rum, hvor overfladen skal kunne holde til noget.",
+        "photo": "fliser"
+      }
+    ]
+  },
+  {
+    "id": "badevaerelsesrenovering",
+    "title": "Badeværelsesrenovering",
+    "summary": "Et nyt badeværelse fra start til slut, hvor det gamle bliver revet ud og rummet bygget op på ny.",
+    "photo": "badevaerelse",
+    "items": [
+      {
+        "title": "Totalrenovering af badeværelser",
+        "text": "Vi river det gamle ud og bygger badeværelset op på ny, helt ned til den sidste fuge.",
+        "photo": "badevaerelse"
+      }
+    ]
+  }
+]
