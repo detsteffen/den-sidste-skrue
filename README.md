@@ -39,9 +39,14 @@ in a folder under `leads/`.
 - **Turn on Instagram:** set `instagram.url` in `src/data/site.json` to the
   profile's address, and the section appears with a link to it. Set
   `instagram.feed` to a Behold JSON feed address
-  (`https://feeds.behold.so/…`) to show the latest posts. The feed is read
-  when the site is built, so the site has to be rebuilt to pick up new
-  posts, and it falls back to the plain link if the feed cannot be read.
+  (`https://feeds.behold.so/…`) to show the latest posts. The feed and its
+  photos are read when the site is built, and the photos are saved with the
+  site, so visitors fetch nothing from Behold or Instagram. The publishing
+  workflow rebuilds once a day to pick up new posts. If the feed or one of
+  its photos cannot be read, the section falls back to the plain link and
+  the build log says why. GitHub switches scheduled runs off in a public
+  repository after 60 days without activity; switch the workflow back on
+  under Actions if that happens.
 - **Replace a stock photo:** put a photo with the same file name in
   `src/assets/fotos/`. Set `stockPhotos` to `false` in `site.json` when none
   are left, which removes the note about example photos from the footer.

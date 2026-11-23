@@ -1,10 +1,10 @@
 ---
 import { latestPosts } from '../lib/instagram';
-import { site } from '../lib/site';
+import { site, url } from '../lib/site';
 import Screw from './Screw.astro';
 
 const { url: profile } = site.instagram;
-const posts = profile ? await latestPosts() : [];
+const posts = await latestPosts();
 ---
 
 {profile && (
@@ -20,7 +20,7 @@ const posts = profile ? await latestPosts() : [];
           {posts.map((post) => (
             <li>
               <a href={post.link} rel="noopener">
-                <img src={post.image} alt={post.alt} width={post.width} height={post.height} loading="lazy" />
+                <img src={url(`instagram/${post.id}.webp`)} alt={post.alt} width={post.width} height={post.height} loading="lazy" />
               </a>
             </li>
           ))}
