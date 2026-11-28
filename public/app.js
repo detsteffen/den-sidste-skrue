@@ -272,15 +272,28 @@ function setUpQuoteForm(form) {
   });
 }
 
-function setUpReviews(reviews) {
-  const buttons = document.querySelector('.carousel-buttons');
-  buttons.hidden = reviews.scrollWidth <= reviews.clientWidth;
+// Arrow buttons for a row that scrolls sideways. They show only when the
+// row is wider than its box, and each stops at its end of the row.
+function setUpCarousel(track, buttons) {
+  const [back, forward] = buttons.querySelectorAll('button');
+
+  function update() {
+    buttons.hidden = track.scrollWidth <= track.clientWidth + 1;
+    back.disabled = track.scrollLeft <= 1;
+    forward.disabled =
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+  }
+
   buttons.addEventListener('click', (event) => {
     const button = event.target.closest('[data-carousel]');
     if (!button) return;
-    const step = reviews.firstElementChild.getBoundingClientRect().width + 20;
-    reviews.scrollBy({left: Number(button.dataset.carousel) * step});
+    const step = track.firstElementChild.getBoundingClientRect().width +
+      parseFloat(getComputedStyle(track).columnGap);
+    track.scrollBy({left: Number(button.dataset.carousel) * step});
   });
+  track.addEventListener('scroll', update, {passive: true});
+  addEventListener('resize', update);
+  update();
 }
 
 // Marks the section being read in an article's table of contents.
@@ -318,5 +331,13 @@ const panelRow = document.getElementById('panels');
 if (panelRow) setUpPanels(panelRow);
 const quoteForm = document.getElementById('quote');
 if (quoteForm) setUpQuoteForm(quoteForm);
-const reviewList = document.getElementById('reviews');
-if (reviewList) setUpReviews(reviewList);
+for (const [trackId, sectionId] of [
+  ['reviews', 'anmeldelser'],
+  ['insta-track', 'instagram'],
+]) {
+  const track = document.getElementById(trackId);
+  if (track) {
+    setUpCarousel(
+      track, document.querySelector(`#${sectionId} .carousel-buttons`));
+  }
+}

@@ -1,45 +1,75 @@
 ---
-import { latestPosts } from '../lib/instagram';
+import { instagramFeed } from '../lib/instagram';
 import { site, url } from '../lib/site';
 import Screw from './Screw.astro';
 
 const { url: profile } = site.instagram;
-const posts = await latestPosts();
-const emptyCells = (3 - (posts.length % 3)) % 3;
+const { posts, picture } = await instagramFeed();
+const handle = `@${profile.split('/').filter(Boolean).pop()}`;
+const dateFormat = new Intl.DateTimeFormat('da-DK', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
 ---
 
 {profile && (
-  <section class="section section-panel" id="instagram">
-    <div class="wrap split">
-      <div class="split-head" data-reveal>
-        <h2 class="section-title">Følg med og se, hvad vi laver.</h2>
-        <p class="section-lead">Se vores seneste projekter og følg med i hverdagen hos {site.name}.</p>
-        <a class="button button-outline" href={profile} rel="noopener">Følg os på Instagram</a>
-      </div>
-      {posts.length > 0 ? (
-        <ul class="insta" data-reveal>
-          {posts.map((post) => (
-            <li>
-              <a href={post.link} rel="noopener">
-                <img src={url(`instagram/${post.id}.webp`)} alt={post.alt} width={post.width} height={post.height} loading="lazy" />
-              </a>
-            </li>
-          ))}
-          {emptyCells > 0 && (
-            <li class="insta-more" data-span={emptyCells}>
-              <a href={profile} rel="noopener">
-                <Screw />
-                <span>Se flere på Instagram</span>
-              </a>
-            </li>
-          )}
-        </ul>
-      ) : (
-        <a class="insta-fallback" href={profile} rel="noopener" data-reveal>
-          <Screw />
-          <span>Vi lægger løbende billeder af vores arbejde på Instagram. Se dem dér.</span>
+  <section class="insta-band" id="instagram" aria-labelledby="insta-title">
+    <div class="wrap insta-layout">
+      <div class="insta-head" data-reveal>
+        <a class="insta-handle" href={profile} rel="noopener">
+          <svg class="ig" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5.5"></rect>
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor"></circle>
+          </svg>
+          {handle}
         </a>
-      )}
+        <h2 class="section-title" id="insta-title">Følg med og se, hvad vi laver.</h2>
+        <p class="section-lead">Se vores seneste projekter og følg med i hverdagen hos {site.name}.</p>
+        <div class="insta-actions">
+          <a class="button button-paper" href={profile} rel="noopener">Følg os på Instagram</a>
+          <div class="carousel-buttons" hidden>
+            <button type="button" data-carousel="-1" aria-label="Forrige opslag">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+            </button>
+            <button type="button" data-carousel="1" aria-label="Næste opslag">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <ul class="insta-track" id="insta-track" tabindex="0" aria-label="Seneste opslag på Instagram">
+        {posts.map((post, index) => (
+          <li class="insta-card" style={`--i: ${index}`} data-reveal>
+            <a href={post.link} rel="noopener">
+              <img class="insta-photo" src={url(`instagram/${post.id}.webp`)} alt={post.alt} width={post.width} height={post.height} loading="lazy" />
+              {post.more && (
+                <span class="insta-badge" title="Flere billeder på Instagram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="7" y="7" width="13" height="13" rx="3"></rect>
+                    <path d="M4 15V7a3 3 0 0 1 3-3h8"></path>
+                  </svg>
+                </span>
+              )}
+              <span class="insta-caption">
+                <time datetime={post.date.toISOString()}>{dateFormat.format(post.date)}</time>
+                {post.caption && <span class="insta-text">{post.caption}</span>}
+              </span>
+            </a>
+          </li>
+        ))}
+        <li class="insta-card insta-follow" style={`--i: ${posts.length}`} data-reveal>
+          <a href={profile} rel="noopener">
+            {picture
+              ? <img class="insta-avatar" src={url('instagram/profil.webp')} alt="" width="240" height="240" loading="lazy" />
+              : <Screw />}
+            <strong>{handle}</strong>
+            <span>Se alle vores opslag, og følg med i det næste projekt.</span>
+            <span class="insta-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 )}

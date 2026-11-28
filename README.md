@@ -42,17 +42,17 @@ in a folder under `leads/`.
 - **Turn on Instagram:** set `instagram.url` in `src/data/site.json` to the
   profile's address, and the section appears with a link to it. Set
   `instagram.feed` to a Behold JSON feed address
-  (`https://feeds.behold.so/…`) to show the latest posts. The feed and its
-  photos are read when the site is built, and the photos are saved with the
-  site, so visitors fetch nothing from Behold or Instagram. The server
-  rebuilds the site every night to pick up new posts (see Publishing), and
-  so does the GitHub Pages workflow for its copy. Up to nine posts show
-  in whole rows of three; with one or two, a tile linking to the profile
-  fills the row. If the feed or one of
-  its photos cannot be read, the section falls back to the plain link and
-  the build log says why. GitHub switches scheduled runs off in a public
-  repository after 60 days without activity; switch the workflow back on
-  under Actions if that happens.
+  (`https://feeds.behold.so/…`) to show the latest posts. The feed, its
+  photos and the profile picture are read when the site is built and saved
+  with the site, so visitors fetch nothing from Behold or Instagram. The
+  posts run as tall cards in a row that scrolls sideways, ending in a card
+  for the profile; arrows appear when the row is wider than the window.
+  Behold's free plan refreshes the feed once a day, and the server checks
+  it every three hours (see Publishing). If the feed or one of its photos
+  cannot be read, only the profile card shows and the build log says why.
+  The GitHub Pages workflow rebuilds its copy once a day; GitHub switches
+  scheduled runs off in a public repository after 60 days without
+  activity, so switch it back on under Actions if that happens.
 - **Replace a stock photo:** put a photo with the same file name in
   `src/assets/fotos/`. Set `stockPhotos` to `false` in `site.json` when none
   are left, which removes the note about example photos from the footer.
@@ -120,11 +120,13 @@ the one Caddy on the server, whose site block lives in telefonist's repo
 reaches the site whatever the domain's DNS says. The domain is registered
 at one.com, where its A records for `@` and `www` point to the server.
 
-Every night at 03:41 UTC the server rebuilds the site from the last deploy,
-so new Instagram posts appear without a deploy. `deploy.sh` installs the job
-from `deploy/hetzner/rebuild.cron` as `/etc/cron.d/den-sidste-skrue`; its
-output is in `journalctl -t den-sidste-skrue`. The container is replaced
-during the rebuild, so the site is away for a few seconds at that hour.
+Every three hours the server reads the Instagram feed and, if it holds
+other posts than at the last rebuild, rebuilds the site from the last
+deploy, so new posts appear without a deploy
+(`deploy/hetzner/refresh-instagram.sh`). `deploy.sh` installs the job from
+`deploy/hetzner/rebuild.cron` as `/etc/cron.d/den-sidste-skrue`; its output
+is in `journalctl -t den-sidste-skrue`. A rebuild replaces the container,
+so the site is away for a few seconds.
 
 A push to `main` also builds a copy on GitHub Pages through
 `.github/workflows/pages.yml`, for previews. `SITE_URL` and `SITE_BASE` set

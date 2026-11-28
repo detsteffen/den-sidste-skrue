@@ -1034,6 +1034,11 @@ textarea {
   color: var(--paper);
 }
 
+.carousel-buttons button:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
 .carousel-buttons svg {
   width: 20px;
   height: 20px;
@@ -1093,24 +1098,240 @@ textarea {
   color: var(--ink);
 }
 
-/* Instagram */
+/* Instagram: a dark band of its own, so it never reads as part of the form
+   above it. The posts run as tall cards in a row that scrolls sideways and
+   reaches the right edge of the window; a card for the profile ends it. */
 
-.insta {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.insta-band {
+  --gutter: clamp(20px, 4vw, 40px);
+  --bleed: calc((100vw - min(100vw, 1240px)) / 2 + var(--gutter));
+  position: relative;
+  overflow: clip;
+  padding: var(--section) 0;
+  background:
+    radial-gradient(56rem 34rem at 0% 0%, rgba(184, 137, 47, 0.16), transparent 62%),
+    radial-gradient(40rem 30rem at 100% 100%, rgba(185, 198, 188, 0.08), transparent 60%),
+    var(--ink-deep);
+  color: var(--paper);
 }
 
-.insta a {
+.insta-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: var(--gap);
+}
+
+.insta-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: var(--brass);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.insta-handle:hover {
+  color: #d4a548;
+}
+
+.ig {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.insta-band .section-lead {
+  color: var(--ink-soft);
+}
+
+.insta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 36px;
+}
+
+.insta-band .carousel-buttons button {
+  border-color: rgba(246, 241, 228, 0.35);
+  color: var(--paper);
+}
+
+.insta-band .carousel-buttons button:hover:not(:disabled) {
+  border-color: var(--paper);
+  background: var(--paper);
+  color: var(--ink-deep);
+}
+
+.insta-track {
+  display: flex;
+  gap: 16px;
+  margin: -6px calc(-1 * var(--bleed)) -6px -6px;
+  padding: 6px var(--bleed) 6px 6px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 6px var(--bleed);
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.insta-track::-webkit-scrollbar {
+  display: none;
+}
+
+.insta-card {
+  flex: 0 0 clamp(232px, 22vw, 296px);
+  scroll-snap-align: start;
+}
+
+.insta-card > a {
   position: relative;
   display: block;
-  aspect-ratio: 1;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
-  border-radius: 18px;
-  background: var(--line);
+  border-radius: 22px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
 }
 
-.insta img,
+.insta-card > a:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 4px;
+}
+
+.insta-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+
+.insta-card > a:hover .insta-photo {
+  transform: scale(1.05);
+}
+
+.insta-caption {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  gap: 6px;
+  padding: 72px 20px 20px;
+  background: linear-gradient(transparent, rgba(10, 22, 17, 0.88));
+}
+
+.insta-caption time {
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.insta-text {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.insta-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(10, 22, 17, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.insta-badge svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.insta-follow > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 22px;
+  border: 1px solid rgba(246, 241, 228, 0.16);
+  background: rgba(246, 241, 228, 0.05);
+  text-align: center;
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+
+.insta-follow > a:hover {
+  border-color: rgba(184, 137, 47, 0.6);
+  background: rgba(246, 241, 228, 0.09);
+}
+
+.insta-avatar {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 8px;
+  padding: 3px;
+  border: 2px solid var(--brass);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.insta-follow .screw {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+  color: var(--brass);
+  --star: var(--ink-deep);
+}
+
+.insta-follow strong {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 560;
+}
+
+.insta-follow span {
+  max-width: 14em;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.insta-follow .insta-arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-top: 14px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink-deep);
+  font-size: 1.1rem;
+  transition: transform 0.35s var(--ease), background 0.35s;
+}
+
+.insta-follow > a:hover .insta-arrow {
+  background: var(--brass);
+  transform: translateX(4px);
+}
+
 .job-photo img {
   width: 100%;
   height: 100%;
@@ -1118,67 +1339,8 @@ textarea {
   transition: transform 0.8s var(--ease);
 }
 
-.insta a:hover img,
 .job:hover img {
   transform: scale(1.04);
-}
-
-/* Fewer than three posts: one tile to the profile closes the row. It takes
-   the height of the square photos beside it instead of its own. */
-.insta-more {
-  position: relative;
-}
-
-.insta-more[data-span="2"] {
-  grid-column: span 2;
-}
-
-.insta .insta-more a {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 14px;
-  aspect-ratio: auto;
-  padding: clamp(16px, 2.4vw, 28px);
-  border: 1px solid var(--line);
-  background: var(--card);
-  font-family: var(--serif);
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
-  line-height: 1.2;
-  text-decoration: none;
-  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
-}
-
-.insta .insta-more a:hover {
-  border-color: var(--brass);
-  background: var(--paper);
-}
-
-.insta-more .screw {
-  width: 28px;
-  height: 28px;
-  --star: var(--card);
-}
-
-.insta-fallback {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 28px 32px;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: var(--card);
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  text-decoration: none;
-}
-
-.insta-fallback .screw {
-  width: 34px;
-  height: 34px;
-  --star: var(--card);
 }
 
 /* Work areas on the front page: three photo panels. With JavaScript and
@@ -2466,6 +2628,20 @@ textarea {
   .panel::after {
     display: none;
   }
+
+  .insta-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .insta-track {
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+
+  .insta-card {
+    flex-basis: clamp(240px, 36vw, 300px);
+  }
 }
 
 @media (max-width: 640px) {
@@ -2473,17 +2649,18 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .insta-card {
+    flex-basis: min(74vw, 300px);
+  }
+
+  /* On a phone the next card peeking in says the row swipes. */
+  .insta-band .carousel-buttons {
+    display: none;
+  }
+
   .panel > img {
     min-height: 0;
     aspect-ratio: 3 / 2;
-  }
-
-  .insta .insta-more a {
-    padding: 14px;
-  }
-
-  .insta-more .screw {
-    display: none;
   }
 }
 
@@ -2828,6 +3005,12 @@ textarea {
   .js [data-reveal].is-in {
     opacity: 1;
     transform: none;
+  }
+
+  /* Cards in the Instagram row come in from the side: a lift would spill
+     out of the row, which scrolls. */
+  .js .insta-card[data-reveal]:not(.is-in) {
+    transform: translateX(56px);
   }
 
   .js .closing .period {
