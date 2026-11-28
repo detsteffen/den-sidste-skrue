@@ -5,7 +5,10 @@ Static files come from dist/ (run `npm run build` first). POST /api/lead
 takes the quote form as multipart/form-data and stores each request in its
 own folder under leads/: lead.json plus the attached photos and drawings.
 
-Usage: python3 server.py [port]
+Usage: python3 server.py [port] [host]
+
+The host defaults to 127.0.0.1; in a container it is 0.0.0.0, so the proxy
+in front can reach it.
 """
 
 import datetime
@@ -111,6 +114,27 @@ def _store(lead: dict[str, str], files: list[tuple[str, bytes]]) -> None:
 class _Handler(http.server.SimpleHTTPRequestHandler):
     """Static file handler that also accepts quote requests."""
 
+    # Without a charset, browsers and AI crawlers may read the Danish letters
+    # in llms.txt and the Markdown copies of the guides as Latin-1.
+    extensions_map = {
+        **http.server.SimpleHTTPRequestHandler.extensions_map,
+        '.md': 'text/markdown; charset=utf-8',
+        '.txt': 'text/plain; charset=utf-8',
+    }
+
+    def send_error(self, code, message=None, explain=None):
+        """Answers a missing page with the site's own 404 page."""
+        if code != http.HTTPStatus.NOT_FOUND:
+            super().send_error(code, message, explain)
+            return
+        page = (pathlib.Path(self.directory) / '404.html').read_bytes()
+        self.send_response(code)
+        self.send_header('Content-Type', 'text/html; charset=utf-8')
+        self.send_header('Content-Length', str(len(page)))
+        self.end_headers()
+        if self.command != 'HEAD':
+            self.wfile.write(page)
+
     def do_POST(self):  # http.server name, so pylint: disable=invalid-name
         length = int(self.headers.get('Content-Length', 0))
         if self.path != '/api/lead' or not 0 < length <= _MAX_BODY_BYTES:
@@ -133,8 +157,11 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
 
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8040
+    host = sys.argv[2] if len(sys.argv) > 2 else '127.0.0.1'
     handler = functools.partial(_Handler, directory=str(_ROOT / 'dist'))
-    with http.server.HTTPServer(('127.0.0.1', port), handler) as server:
+    # One thread per request, so a slow upload of photos does not hold up
+    # every other visitor.
+    with http.server.ThreadingHTTPServer((host, port), handler) as server:
         server.serve_forever()
 
 

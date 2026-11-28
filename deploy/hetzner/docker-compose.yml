@@ -1,0 +1,49 @@
+# Den Sidste Skrue on Håndfri's Hetzner server, as its own compose project;
+# deploy.sh syncs it to /opt/den-sidste-skrue and runs it.
+#
+# Nothing is published on the host. The one Caddy on the box lives in
+# telefonist's compose project, owns ports 80 and 443 and routes by domain:
+# it reaches this site over telefonist's network as densidsteskrue-app:8040.
+name: den-sidste-skrue
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  site:
+    build:
+      context: ../..
+      dockerfile: deploy/hetzner/Dockerfile
+      args:
+        SITE_URL: https://densidsteskrue.dk
+    restart: unless-stopped
+    logging: *logging
+    volumes:
+      - leads:/app/leads
+    networks:
+      telefonist:
+        aliases:
+          - densidsteskrue-app
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - >-
+          import urllib.request;
+          urllib.request.urlopen('http://127.0.0.1:8040/', timeout=5)
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+volumes:
+  leads:
+
+networks:
+  telefonist:
+    name: telefonist_default
+    external: true
