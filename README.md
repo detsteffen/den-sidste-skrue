@@ -101,6 +101,22 @@ reached are only hidden when the script is running.
 
 ## Publishing
 
-A push to `main` builds the site and publishes it to GitHub Pages through
-`.github/workflows/pages.yml`. `SITE_URL` and `SITE_BASE` set the address
-the build is made for; without them it builds for the site root.
+The site runs on Håndfri's Hetzner server (91.98.223.238) as the compose
+project `den-sidste-skrue` in `/opt/den-sidste-skrue`, built for
+`https://densidsteskrue.dk`. Deploy the committed HEAD with:
+
+```bash
+DSS_HOST=root@91.98.223.238 deploy/hetzner/deploy.sh
+```
+
+The Docker image builds the site and serves it with `server.py`, which also
+takes the quote form; requests land in the volume `den-sidste-skrue_leads`
+(`docker exec den-sidste-skrue-site-1 ls leads`). The domain is routed by
+the one Caddy on the server, whose site block lives in telefonist's repo
+(`deploy/hetzner/Caddyfile`); `densidsteskrue.91-98-223-238.sslip.io`
+reaches the site whatever the domain's DNS says. The domain is registered
+at one.com, where its A records for `@` and `www` point to the server.
+
+A push to `main` also builds a copy on GitHub Pages through
+`.github/workflows/pages.yml`, for previews. `SITE_URL` and `SITE_BASE` set
+the address a build is made for; without them it builds for the site root.
