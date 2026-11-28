@@ -30,23 +30,18 @@
         "text": "Terrasser med en bærende konstruktion, der holder til dansk vejr i mange år.",
         "photo": "terrasse"
       }
-    ],
-    "guides": [
-      "toemrer-timepris",
-      "hvad-koster-et-nyt-tag",
-      "udskiftning-af-vinduer-og-doere"
     ]
   },
   {
     "id": "flisearbejde",
     "title": "Flisearbejde",
-    "summary": "Fliser bliver siddende i mange år, så opdeling, fuger og afslutninger skal være i orden fra start.",
+    "summary": "Fliser bliver siddende i mange år, så opdeling, fuger og afslutninger skal være i orden fra start. Også når hele badeværelset skal laves om.",
     "photo": "badevaerelse-2",
     "items": [
       {
-        "title": "Badeværelser",
-        "text": "Fliser på gulv og væg, med pæne snit ved kanter og hjørner.",
-        "photo": "badevaerelse-2"
+        "title": "Badeværelses­renovering",
+        "text": "Vi river det gamle ud og bygger badeværelset op på ny, med fliser på gulv og væg og pæne snit ved kanter og hjørner.",
+        "photo": "badevaerelse"
       },
       {
         "title": "Køkkener",
@@ -58,29 +53,6 @@
         "text": "Flisearbejde i entré, bryggers og andre rum, hvor overfladen skal kunne holde til noget.",
         "photo": "fliser"
       }
-    ],
-    "guides": [
-      "pris-paa-flisearbejde",
-      "valg-af-fliser-til-badevaerelset",
-      "fliser-i-koekkenet"
-    ]
-  },
-  {
-    "id": "badevaerelsesrenovering",
-    "title": "Badeværelses\u00adrenovering",
-    "summary": "Et nyt badeværelse fra start til slut, hvor det gamle bliver revet ud og rummet bygget op på ny.",
-    "photo": "badevaerelse",
-    "items": [
-      {
-        "title": "Totalrenovering af badeværelser",
-        "text": "Vi river det gamle ud og bygger badeværelset op på ny, helt ned til den sidste fuge.",
-        "photo": "badevaerelse"
-      }
-    ],
-    "guides": [
-      "hvad-koster-et-nyt-badevaerelse",
-      "badevaerelsesrenovering-trin-for-trin",
-      "regler-for-vaadrum"
     ]
   }
 ]

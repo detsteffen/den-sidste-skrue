@@ -2,57 +2,56 @@
 import { Image } from 'astro:assets';
 import PageHead from '../../components/PageHead.astro';
 import Base from '../../layouts/Base.astro';
-import { allPosts, find } from '../../lib/posts';
 import { areas, photo, site, url } from '../../lib/site';
 
-const posts = await allPosts();
+const number = (index: number) => String(index + 1).padStart(2, '0');
 ---
 
 <Base
   title={`Vi udfører – ${site.name}`}
-  description={`Tømrerarbejde, flisearbejde og badeværelsesrenovering i ${site.city} og omegn: vinduer og døre, tag, renovering, gulve, terrasser og fliser.`}
+  description={`Tømrerarbejde og flisearbejde i ${site.city} og omegn: vinduer og døre, tag, renovering, gulve, terrasser, fliser og badeværelsesrenovering.`}
 >
   <section class="section section-top">
     <div class="wrap">
-      <PageHead title="Vi udfører" lead="Tømrerarbejde, flisearbejde og badeværelser. Find den opgave, der ligner din, og få et uforpligtende tilbud.">
-        <nav class="jump" aria-label="Områder">
-          {areas.map((area) => <a href={`#${area.id}`}>{area.title}</a>)}
-        </nav>
-      </PageHead>
+      <PageHead title="Vi udfører" lead={`Tømrerarbejde og flisearbejde for boligejere i ${site.city} og omegn. Find den opgave, der ligner din, og få et uforpligtende tilbud.`} />
+      <nav class="area-tiles" aria-label="Områder" data-reveal>
+        {areas.map((area, index) => (
+          <a class="area-tile" href={`#${area.id}`}>
+            <Image src={photo(area.photo)} alt="" width={1200} height={750} widths={[640, 1200]} sizes="(max-width: 560px) 100vw, 600px" fit="cover" />
+            <span class="area-tile-text">
+              <span class="area-number">{number(index)}</span>
+              <strong>{area.title}</strong>
+              <span class="area-tile-count">{area.items.length} slags opgaver</span>
+            </span>
+            <span class="area-tile-arrow" aria-hidden="true">↓</span>
+          </a>
+        ))}
+      </nav>
     </div>
   </section>
 
   {areas.map((area, index) => (
-    <section class:list={['section', 'area-section', { 'section-panel': index % 2 === 0 }]} id={area.id}>
-      <div class="wrap">
-        <div class="section-head" data-reveal>
-          <div>
-            <h2 class="section-title">{area.title}</h2>
-            <p class="section-lead">{area.summary}</p>
-          </div>
-          <a class="button button-outline" href={url('#pris')}>Få et uforpligtende tilbud</a>
+    <section class="section" id={area.id}>
+      <div class="wrap area-grid">
+        <div class="area-intro" data-reveal>
+          <p class="area-number">{number(index)}</p>
+          <h2 class="section-title">{area.title}</h2>
+          <p class="section-lead">{area.summary}</p>
+          <a class="button" href={url('#pris')}>Få et uforpligtende tilbud</a>
         </div>
-        <ul class="jobs" data-count={area.items.length}>
+        <ul class="services">
           {area.items.map((item, position) => (
-            <li class="job" data-reveal style={`--i:${position % 3}`}>
-              <div class="job-photo">
-                <Image src={photo(item.photo)} alt="" width={1100} height={720} fit="cover" />
+            <li class="service" data-reveal style={`--i:${position}`}>
+              <div class="service-photo">
+                <Image src={photo(item.photo)} alt="" width={400} height={300} widths={[220, 400]} sizes="(max-width: 560px) 104px, 196px" fit="cover" />
               </div>
-              <div class="job-text">
+              <div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
             </li>
           ))}
         </ul>
-        <nav class="area-guides" aria-label={`Guides om ${area.title.replace('­', '').toLowerCase()}`}>
-          <p class="eyebrow">Læs før du går i gang</p>
-          <ul>
-            {area.guides.map((id) => (
-              <li><a class="text-link" href={url(`blog/${id}/`)}>{find(posts, id).data.title}</a></li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </section>
   ))}
