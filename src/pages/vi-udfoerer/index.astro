@@ -2,7 +2,12 @@
 import { Image } from 'astro:assets';
 import PageHead from '../../components/PageHead.astro';
 import Base from '../../layouts/Base.astro';
+import { allServices } from '../../lib/services';
 import { areas, photo, site, url } from '../../lib/site';
+
+const services = await allServices();
+const servicesIn = (areaId: string) =>
+  services.filter((service) => service.data.area === areaId);
 
 const number = (index: number) => String(index + 1).padStart(2, '0');
 ---
@@ -21,7 +26,7 @@ const number = (index: number) => String(index + 1).padStart(2, '0');
             <span class="area-tile-text">
               <span class="area-number">{number(index)}</span>
               <strong>{area.title}</strong>
-              <span class="area-tile-count">{area.items.length} slags opgaver</span>
+              <span class="area-tile-count">{servicesIn(area.id).length} slags opgaver</span>
             </span>
             <span class="area-tile-arrow" aria-hidden="true">↓</span>
           </a>
@@ -40,15 +45,18 @@ const number = (index: number) => String(index + 1).padStart(2, '0');
           <a class="button" href={url('#pris')}>Få et uforpligtende tilbud</a>
         </div>
         <ul class="services">
-          {area.items.map((item, position) => (
-            <li class="service" data-reveal style={`--i:${position}`}>
-              <div class="service-photo">
-                <Image src={photo(item.photo)} alt="" width={400} height={300} widths={[220, 400]} sizes="(max-width: 560px) 104px, 196px" fit="cover" />
-              </div>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
+          {servicesIn(area.id).map(({ id, data }, position) => (
+            <li data-reveal style={`--i:${position}`}>
+              <a class="service" href={url(`vi-udfoerer/${id}/`)}>
+                <div class="service-photo">
+                  <Image src={photo(data.photo)} alt="" width={400} height={300} widths={[220, 400]} sizes="(max-width: 560px) 104px, 196px" fit="cover" />
+                </div>
+                <div>
+                  <h3>{data.title}</h3>
+                  <p>{data.summary}</p>
+                  <span class="service-more">Læs mere</span>
+                </div>
+              </a>
             </li>
           ))}
         </ul>

@@ -3,12 +3,15 @@ import terms from '../data/ordbog.json';
 import { CATEGORIES, CATEGORY_IDS } from '../lib/blog';
 import { allPosts } from '../lib/posts';
 import { absolute } from '../lib/schema';
+import { allServices } from '../lib/services';
 import { site } from '../lib/site';
 
 // A map of the site for AI assistants, following the llms.txt proposal
 // (https://llmstxt.org): the guides link to their plain Markdown copies.
 export const GET: APIRoute = async () => {
   const posts = await allPosts();
+  const services = (await allServices()).map(({ id, data }) =>
+    `- [${data.heading.replace('\u00ad', '')}](${absolute(`vi-udfoerer/${id}/`)}): ${data.description}`);
   const sections = CATEGORY_IDS.map((id) =>
     [
       `## ${CATEGORIES[id].title}`,
@@ -22,7 +25,7 @@ export const GET: APIRoute = async () => {
     [
       `# ${site.name}`,
       `> ${site.trade} i ${site.city} og omegn v/ ${site.owner}: tømrerarbejde, ` +
-        `flisearbejde og badeværelsesrenovering. Telefon ${site.phone}.`,
+        `flisearbejde, også badeværelsesrenovering. Telefon ${site.phone}.`,
       'Siden har guides om priser, regler og forløb, når man skal have lavet ' +
         'badeværelse, fliser eller tømrerarbejde i Danmark. Hver guide har kilder ' +
         'og findes også som Markdown.',
@@ -32,6 +35,7 @@ export const GET: APIRoute = async () => {
         `- [Vi udfører](${absolute('vi-udfoerer/')}): tømrerarbejde, flisearbejde og badeværelsesrenovering.`,
         `- [Om os](${absolute('om-os/')}): hvem står bag, og hvordan en opgave forløber.`,
       ].join('\n'),
+      ['## Ydelser', ...services].join('\n'),
       ...sections,
       [
         '## Ordbog',

@@ -7,6 +7,7 @@ import Base from '../../layouts/Base.astro';
 import { CATEGORIES, danishDate, readingMinutes } from '../../lib/blog';
 import { allPosts, find, type Post } from '../../lib/posts';
 import { absolute, breadcrumbs, business } from '../../lib/schema';
+import { allServices } from '../../lib/services';
 import { photo, site, url } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -29,6 +30,8 @@ const category = CATEGORIES[data.category];
 const path = `blog/${post.id}/`;
 const day = (date: Date) => date.toISOString().slice(0, 10);
 const related = data.related.map((id) => find(posts, id));
+const service = (await allServices()).find(
+  (candidate) => candidate.data.guides.includes(post.id));
 const contents = [
   ...headings.filter(({ depth }) => depth === 2),
   ...(data.faq.length ? [{ slug: 'spoergsmaal', text: 'Ofte stillede spørgsmål' }] : []),
@@ -190,6 +193,11 @@ const schema = {
               <a class="button button-paper" href={url('#pris')}>Få et uforpligtende tilbud</a>
               <a class="button button-ghost" href={`tel:${site.phoneHref}`}>Ring: {site.phone}</a>
             </div>
+            {service && (
+              <p class="article-cta-service">
+                Se, hvad vi laver: <a href={url(`vi-udfoerer/${service.id}/`)}>{service.data.heading}</a>
+              </p>
+            )}
           </aside>
         </div>
       </div>

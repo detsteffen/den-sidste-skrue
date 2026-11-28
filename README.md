@@ -21,7 +21,8 @@ in a folder under `leads/`.
 | What | Where |
 |---|---|
 | Company name, phone, e-mail, CVR, Instagram, `indexable` | `src/data/site.json` |
-| Work areas and the jobs under each | `src/data/areas.json` |
+| Work areas | `src/data/areas.json` |
+| Services, one page each under `/vi-udfoerer/` | `src/content/services/` |
 | Customer reviews | `src/data/reviews.json` |
 | Photos | `src/assets/fotos/` |
 | Pages | `src/pages/` |
@@ -59,6 +60,13 @@ in a folder under `leads/`.
 - **Change the work areas:** edit `src/data/areas.json`. Each `photo` is a
   file name in `src/assets/fotos/` without `.jpg`. A `\u00ad` in a title is a
   soft hyphen: it marks where a long word may break on a narrow screen.
+- **Add or change a service:** each Markdown file in `src/content/services/`
+  is a page at `/vi-udfoerer/<file name>/` and a row on Vi udfører and the
+  front page. The frontmatter holds the list text (`title`, `summary`), the
+  page head (`heading`, `lead`, `photo`), `includes`, `faq` and `guides`
+  (blog slugs; the build fails if one does not exist). `area` and `order`
+  decide where it is listed. The body is the running text; link to guides
+  root-relative. A guide named in `guides` links back to the service.
 - **Go live:** fill in `src/data/site.json` and set `indexable` to `true`.
   Until then every page carries `noindex`.
 

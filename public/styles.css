@@ -1420,11 +1420,22 @@ textarea {
 }
 
 .panel-more li {
-  padding: 6px 13px;
   border: 1px solid rgba(246, 241, 228, 0.4);
   border-radius: 999px;
   background: rgba(20, 42, 33, 0.4);
   font-size: 0.875rem;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.panel-more li:hover {
+  border-color: var(--paper);
+  background: rgba(20, 42, 33, 0.7);
+}
+
+.panel-more li a {
+  display: block;
+  padding: 6px 13px;
+  text-decoration: none;
 }
 
 .panel-more .text-link {
@@ -1836,8 +1847,34 @@ textarea {
   border-bottom: 1px solid var(--line);
 }
 
-.service:first-child {
+.services li:first-child .service {
   padding-top: 0;
+}
+
+a.service {
+  text-decoration: none;
+}
+
+.service-more {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.service-more::after {
+  content: '→';
+  transition: transform 0.25s var(--ease);
+}
+
+a.service:hover .service-more::after {
+  transform: translateX(5px);
+}
+
+a.service:hover h3 {
+  color: var(--brass-deep);
 }
 
 .service-photo {
@@ -1869,6 +1906,134 @@ textarea {
 .service p {
   margin-top: 6px;
   color: var(--muted);
+}
+
+/* A service's own page: the head beside a tall photo, then what the
+   service covers in a card that stays in view beside the running text. */
+
+.service-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  align-items: end;
+  gap: var(--gap);
+}
+
+.service-hero .page-head h1 {
+  max-width: 13em;
+}
+
+.service-hero .actions {
+  margin-top: 32px;
+}
+
+.service-hero-photo {
+  position: relative;
+}
+
+.service-hero-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 28px;
+  object-fit: cover;
+}
+
+.service-hero-photo figcaption {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(20, 42, 33, 0.6);
+  color: var(--paper);
+  font-size: 0.8rem;
+}
+
+.service-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: var(--gap);
+}
+
+.service-aside {
+  position: sticky;
+  top: calc(var(--header-height) + 32px);
+  display: grid;
+  gap: 18px;
+}
+
+.service-includes,
+.service-siblings {
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+}
+
+.service-aside h2 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 560;
+  line-height: 1.2;
+}
+
+.service-includes ul {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.service-includes li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+}
+
+.service-includes .screw {
+  width: 16px;
+  height: 16px;
+  align-self: center;
+  color: var(--brass);
+  --star: var(--card);
+}
+
+.service-siblings {
+  background: transparent;
+}
+
+.service-siblings ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.service-siblings a {
+  display: inline-block;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.service-siblings a:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.service-body .article-prose > h2:first-child {
+  margin-top: 0;
+}
+
+.faq-note {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 /* Blog */
@@ -2398,6 +2563,18 @@ textarea {
   margin-top: 26px;
 }
 
+.article-cta .article-cta-service {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(246, 241, 228, 0.16);
+}
+
+.article-cta-service a {
+  color: var(--paper);
+  text-decoration-color: var(--brass);
+  text-underline-offset: 3px;
+}
+
 /* Glossary */
 
 .letters a {
@@ -2886,6 +3063,19 @@ textarea {
   }
 
   .area-intro {
+    position: static;
+  }
+
+  .service-hero,
+  .service-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .service-hero-photo {
+    width: min(100%, 460px);
+  }
+
+  .service-aside {
     position: static;
   }
 

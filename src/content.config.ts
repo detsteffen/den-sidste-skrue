@@ -36,4 +36,26 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Each service under Vi udfører has its own page; the body is the page's
+// running text, and guides are blog posts the page sends readers on to.
+const services = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/services' }),
+  schema: z.object({
+    title: z.string(),
+    area: z.enum(['toemrerarbejde', 'flisearbejde']),
+    /** Place in the lists on Vi udfører and the front page. */
+    order: z.number(),
+    /** One sentence for the lists. */
+    summary: z.string(),
+    heading: z.string(),
+    description: z.string(),
+    lead: z.string(),
+    photo: z.enum(PHOTOS),
+    photoAlt: z.string(),
+    includes: z.array(z.string()),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    guides: z.array(z.string()),
+  }),
+});
+
+export const collections = { blog, services };

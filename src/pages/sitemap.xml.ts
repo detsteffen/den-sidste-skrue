@@ -2,12 +2,14 @@ import type { APIRoute } from 'astro';
 import { CATEGORY_IDS } from '../lib/blog';
 import { allPosts } from '../lib/posts';
 import { absolute } from '../lib/schema';
+import { allServices } from '../lib/services';
 
 const PAGES = ['', 'vi-udfoerer/', 'om-os/', 'privatliv/', 'blog/', 'blog/ordbog/'];
 
 export const GET: APIRoute = async () => {
   const entries = [
     ...PAGES.map((path) => ({ path })),
+    ...(await allServices()).map(({ id }) => ({ path: `vi-udfoerer/${id}/` })),
     ...CATEGORY_IDS.map((id) => ({ path: `blog/emne/${id}/` })),
     ...(await allPosts()).map(({ id, data }) => ({
       path: `blog/${id}/`,
