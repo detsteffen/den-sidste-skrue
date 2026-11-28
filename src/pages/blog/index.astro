@@ -1,0 +1,103 @@
+---
+import PageHead from '../../components/PageHead.astro';
+import PostCard from '../../components/PostCard.astro';
+import Base from '../../layouts/Base.astro';
+import terms from '../../data/ordbog.json';
+import { CATEGORIES, CATEGORY_IDS } from '../../lib/blog';
+import { allPosts, FEATURED, find } from '../../lib/posts';
+import { absolute, breadcrumbs, business } from '../../lib/schema';
+import { site, url } from '../../lib/site';
+
+const PREVIEW_TERMS = ['AB-Forbruger', 'Bjælkelag', 'Fald', 'Klimaskærm', 'Membran', 'Overslag'];
+
+const posts = await allPosts();
+const [lead, ...others] = FEATURED.map((id) => find(posts, id));
+const description = `Priser, regler og gode råd om badeværelser, fliser og tømrerarbejde. Guides fra ${site.name}, ${site.trade.toLowerCase()} i ${site.city}.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    business,
+    {
+      '@type': 'Blog',
+      name: `Råd og guides fra ${site.name}`,
+      description,
+      url: absolute('blog/'),
+      inLanguage: 'da-DK',
+      publisher: { '@id': business['@id'] },
+      blogPost: posts.map((post) => ({
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        url: absolute(`blog/${post.id}/`),
+        dateModified: post.data.updated.toISOString().slice(0, 10),
+      })),
+    },
+    breadcrumbs([{ path: 'blog/', name: 'Blog' }]),
+  ],
+};
+---
+
+<Base title={`Råd og guides om byggeri og renovering – ${site.name}`} description={description} schema={schema}>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead
+        title="Råd og guides"
+        name="Blog"
+        lead="Hvad det koster, hvilke regler der gælder, og hvordan arbejdet forløber, når du skal have lavet badeværelse, fliser eller tømrerarbejde."
+      >
+        <nav class="jump" aria-label="Emner">
+          {CATEGORY_IDS.map((id) => <a href={url(`blog/emne/${id}/`)}>{CATEGORIES[id].name}</a>)}
+          <a href={url('blog/priser/')}>Priser</a>
+          <a href={url('blog/ordbog/')}>Ordbog</a>
+        </nav>
+      </PageHead>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="featured-title">
+    <div class="wrap">
+      <h2 class="visually-hidden" id="featured-title">Start her</h2>
+      <div class="featured">
+        <PostCard post={lead} large />
+        <div class="featured-side">
+          {others.map((post) => <PostCard post={post} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {CATEGORY_IDS.map((id, index) => (
+    <section class:list={['section', { 'section-panel': index % 2 === 0 }]} aria-labelledby={`emne-${id}`}>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title" id={`emne-${id}`}>{CATEGORIES[id].title}</h2>
+            <p class="section-lead">{CATEGORIES[id].lead}</p>
+          </div>
+          <a class="text-link" href={url(`blog/emne/${id}/`)}>Alle om {CATEGORIES[id].name.toLowerCase()}</a>
+        </div>
+        <div class="post-grid">
+          {posts.filter((post) => post.data.category === id).map((post) => <PostCard post={post} />)}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-head">
+        <h2 class="section-title">Ordbog</h2>
+        <p class="section-lead">{terms.length} ord fra tilbud, byggepladser og badeværelser, forklaret på almindeligt dansk.</p>
+        <a class="button button-outline" href={url('blog/ordbog/')}>Se hele ordbogen</a>
+      </div>
+      <dl class="glossary glossary-preview">
+        {terms.filter(({ term }) => PREVIEW_TERMS.includes(term)).map(({ term, definition }) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{definition}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Base>

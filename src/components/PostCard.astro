@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { CATEGORIES, readingMinutes } from '../lib/blog';
+import type { Post } from '../lib/posts';
+import { photo, url } from '../lib/site';
+
+interface Props {
+  post: Post;
+  /** Heading level of the title, so it fits the page around the card. */
+  level?: 2 | 3;
+  /** A wide card with the photo beside the text. */
+  large?: boolean;
+}
+
+const { post, level = 3, large = false } = Astro.props;
+const { data } = post;
+const Heading = `h${level}` as const;
+---
+
+<article class:list={['post-card', { 'post-card-large': large }]}>
+  <div class="post-card-photo">
+    <Image
+      src={photo(data.photo)}
+      alt=""
+      width={large ? 1100 : 720}
+      height={large ? 760 : 480}
+      widths={large ? [560, 1100] : [360, 720]}
+      sizes={large ? '(max-width: 999px) 100vw, 640px' : '(max-width: 640px) 100vw, (max-width: 999px) 50vw, 380px'}
+      fit="cover"
+    />
+  </div>
+  <div class="post-card-text">
+    <p class="eyebrow">{CATEGORIES[data.category].name}</p>
+    <Heading class="post-card-title"><a href={url(`blog/${post.id}/`)}>{data.title}</a></Heading>
+    <p class="post-card-summary">{data.description}</p>
+    <p class="post-card-meta">{readingMinutes(post.body)} min. læsning</p>
+  </div>
+</article>

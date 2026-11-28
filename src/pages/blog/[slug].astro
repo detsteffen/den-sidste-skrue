@@ -1,0 +1,210 @@
+---
+import { getImage, Image } from 'astro:assets';
+import { render } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+import Screw from '../../components/Screw.astro';
+import Base from '../../layouts/Base.astro';
+import { CATEGORIES, danishDate, readingMinutes } from '../../lib/blog';
+import { allPosts, find, type Post } from '../../lib/posts';
+import { absolute, breadcrumbs, business } from '../../lib/schema';
+import { photo, site, url } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, posts },
+  }));
+}
+
+interface Props {
+  post: Post;
+  posts: Post[];
+}
+
+const { post, posts } = Astro.props;
+const { data } = post;
+const { Content, headings } = await render(post);
+const category = CATEGORIES[data.category];
+const path = `blog/${post.id}/`;
+const day = (date: Date) => date.toISOString().slice(0, 10);
+const related = data.related.map((id) => find(posts, id));
+const contents = [
+  ...headings.filter(({ depth }) => depth === 2),
+  ...(data.faq.length ? [{ slug: 'spoergsmaal', text: 'Ofte stillede spørgsmål' }] : []),
+  { slug: 'kilder', text: 'Kilder' },
+];
+const shareImage = await getImage({
+  src: photo(data.photo),
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const shareImageUrl = new URL(shareImage.src, Astro.site).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    business,
+    {
+      '@type': 'BlogPosting',
+      '@id': absolute(`${path}#artikel`),
+      mainEntityOfPage: absolute(path),
+      headline: data.title,
+      description: data.description,
+      abstract: data.answer,
+      image: shareImageUrl,
+      datePublished: day(data.published),
+      dateModified: day(data.updated),
+      inLanguage: 'da-DK',
+      articleSection: category.name,
+      wordCount: (post.body ?? '').split(/\s+/).length,
+      author: { '@id': business['@id'] },
+      publisher: { '@id': business['@id'] },
+      citation: data.sources.map(({ title, url: address }) => ({
+        '@type': 'CreativeWork',
+        name: title,
+        url: address,
+      })),
+    },
+    breadcrumbs([
+      { path: 'blog/', name: 'Blog' },
+      { path: `blog/emne/${data.category}/`, name: category.name },
+      { path, name: data.title },
+    ]),
+    ...(data.faq.length
+      ? [{
+          '@type': 'FAQPage',
+          mainEntity: data.faq.map(({ q, a }) => ({
+            '@type': 'Question',
+            name: q,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        }]
+      : []),
+  ],
+};
+---
+
+<Base
+  title={`${data.title} – ${site.name}`}
+  description={data.description}
+  schema={schema}
+  image={shareImageUrl}
+  article={{ published: data.published, updated: data.updated }}
+>
+  <article class="article">
+    <header class="section section-top">
+      <div class="wrap article-hero">
+        <div class="page-head article-head">
+          <nav class="crumbs" aria-label="Brødkrumme">
+            <a href={url()}>Forside</a>
+            <a href={url('blog/')}>Blog</a>
+            <a href={url(`blog/emne/${data.category}/`)}>{category.name}</a>
+          </nav>
+          <h1>{data.title}</h1>
+          <p class="article-meta">
+            <span>Opdateret <time datetime={day(data.updated)}>{danishDate(data.updated)}</time></span>
+            <span>{readingMinutes(post.body)} min. læsning</span>
+            <span>Af {site.name}</span>
+          </p>
+          <div class="answer">
+            <p class="answer-label"><Screw />Kort fortalt</p>
+            <p>{data.answer}</p>
+          </div>
+        </div>
+        <figure class="article-photo">
+          <div class="arch">
+            <Image
+              src={photo(data.photo)}
+              alt={data.photoAlt}
+              width={880}
+              height={1040}
+              widths={[480, 880]}
+              sizes="(max-width: 999px) 90vw, 440px"
+              fit="cover"
+              loading="eager"
+            />
+          </div>
+          {site.stockPhotos && <figcaption>Eksempelbillede</figcaption>}
+        </figure>
+      </div>
+    </header>
+
+    <div class="section article-main">
+      <div class="wrap article-layout">
+        <nav class="toc" aria-labelledby="toc-title">
+          <p class="toc-title" id="toc-title">Indhold</p>
+          <ol>
+            {contents.map(({ slug, text }) => <li><a href={`#${slug}`}>{text}</a></li>)}
+          </ol>
+        </nav>
+
+        <div class="article-body">
+          {data.facts.length > 0 && (
+            <aside class="key-facts" aria-labelledby="facts-title">
+              <h2 id="facts-title">Det vigtigste</h2>
+              <ul>
+                {data.facts.map((fact) => <li><Screw />{fact}</li>)}
+              </ul>
+            </aside>
+          )}
+
+          <div class="article-prose">
+            <Content />
+          </div>
+
+          {data.faq.length > 0 && (
+            <section class="faq" id="spoergsmaal">
+              <h2>Ofte stillede spørgsmål</h2>
+              {data.faq.map(({ q, a }) => (
+                <div class="faq-item">
+                  <h3>{q}</h3>
+                  <p>{a}</p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          <section class="sources" id="kilder">
+            <h2>Kilder</h2>
+            <p>
+              {`Gennemgået ${danishDate(data.updated)}.`}
+              {post.body?.includes(' kr.') && ' Priserne i artiklen er markedsestimater og ikke et tilbud.'}
+            </p>
+            <ol>
+              {data.sources.map(({ title, url: address }) => (
+                <li>
+                  <a href={address} rel="noopener">{title}</a>
+                  <span>{new URL(address).hostname.replace(/^www\./, '')}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <aside class="article-cta">
+            <h2>{category.cta}</h2>
+            <p>Fortæl kort om opgaven, så vender vi tilbage med et uforpligtende tilbud.</p>
+            <div class="actions">
+              <a class="button button-paper" href={url('#pris')}>Få et uforpligtende tilbud</a>
+              <a class="button button-ghost" href={`tel:${site.phoneHref}`}>Ring: {site.phone}</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <section class="section section-panel">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">Læs også</h2>
+        <a class="text-link" href={url('blog/')}>Alle guides</a>
+      </div>
+      <div class="post-grid">
+        {related.map((other) => <PostCard post={other} />)}
+      </div>
+    </div>
+  </section>
+</Base>

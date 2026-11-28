@@ -283,9 +283,35 @@ function setUpReviews(reviews) {
   });
 }
 
+// Marks the section being read in an article's table of contents.
+function setUpContents(toc) {
+  const links = [...toc.querySelectorAll('a')];
+  const targets = links.map((link) =>
+    document.getElementById(link.getAttribute('href').slice(1)));
+  let frame = 0;
+
+  function mark() {
+    frame = 0;
+    const line = innerHeight * 0.3;
+    const current = targets.findLastIndex(
+      (target) => target.getBoundingClientRect().top < line);
+    links.forEach((link, index) => {
+      if (index === current) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
+  addEventListener('scroll', () => {
+    frame ||= requestAnimationFrame(mark);
+  }, {passive: true});
+  mark();
+}
+
 setUpHeader();
 setUpReveals();
 setUpMobileBar();
+const contents = document.querySelector('.toc');
+if (contents) setUpContents(contents);
 const slideArch = document.getElementById('slides');
 if (slideArch) setUpSlides(slideArch);
 const panelRow = document.getElementById('panels');

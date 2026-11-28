@@ -29,6 +29,9 @@ in a folder under `leads/`.
 | The sections of the front page | `src/components/` |
 | The photos in the arch at the top of the front page | `slides` in `src/components/Hero.astro` |
 | Styles and behaviour | `public/styles.css`, `public/app.js` |
+| Blog posts | `src/content/blog/<slug>.md` |
+| Blog topics and their texts | `src/lib/blog.ts` |
+| The glossary | `src/data/ordbog.json` |
 
 ## Common changes
 
@@ -55,6 +58,39 @@ in a folder under `leads/`.
   soft hyphen: it marks where a long word may break on a narrow screen.
 - **Go live:** fill in `src/data/site.json` and set `indexable` to `true`.
   Until then every page carries `noindex`.
+
+## Blog
+
+`/blog/` holds guides written to be found on Google and quoted by AI
+assistants such as ChatGPT, Claude and Perplexity. It is linked from the
+footer, not from the front page.
+
+Each post is a Markdown file whose frontmatter carries what the page is
+built from: `title` (the question, as people search for it),
+`description` (for Google), `answer` (the short answer at the top, written
+to be quoted on its own), `facts`, `faq`, `sources`, `related` (slugs of
+other posts), `category` (one of the ids in `src/lib/blog.ts`), `photo`
+(a file name in `src/assets/fotos/`) and the dates. The build fails if a
+field is missing or a `related` slug does not exist. In the body, link to
+other pages root-relative (`/blog/tilbud-eller-overslag/`, `/#pris`); the
+base path is added when the site is built.
+
+What the build makes from them, besides the pages:
+
+- structured data on every post (article, breadcrumbs, FAQ, and the firm as
+  author and publisher), a glossary marked up as defined terms;
+- `llms.txt` and `llms-full.txt` at the site root, a plain Markdown copy of
+  every post at `/blog/<slug>.md`, an RSS feed at `/blog/rss.xml`, and every
+  post in `sitemap.xml` with its date.
+
+Crawlers only read `robots.txt` and `llms.txt` at the root of a domain, so
+they start working once the site has its own domain.
+
+**When a post changes,** set `updated` to the day it changed. Prices and
+rules go out of date, so read the price posts through once a year. The
+posts are written in a neutral voice and say nothing about the firm's own
+prices or promises; Kasper should read them before launch, and his own
+experience and photos make them stronger.
 
 ## Motion
 

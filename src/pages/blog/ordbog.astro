@@ -1,0 +1,87 @@
+---
+import PageHead from '../../components/PageHead.astro';
+import Base from '../../layouts/Base.astro';
+import terms from '../../data/ordbog.json';
+import { slugify } from '../../lib/blog';
+import { allPosts, find } from '../../lib/posts';
+import { absolute, breadcrumbs } from '../../lib/schema';
+import { site, url } from '../../lib/site';
+
+interface Term {
+  term: string;
+  definition: string;
+  guide?: string;
+}
+
+const posts = await allPosts();
+const sorted = [...(terms as Term[])].sort((a, b) => a.term.localeCompare(b.term, 'da'));
+const groups = Map.groupBy(sorted, ({ term }) =>
+  /\p{L}/u.test(term[0]) ? term[0].toUpperCase() : '0–9',
+);
+const path = 'blog/ordbog/';
+const description = `${sorted.length} ord fra tilbud, byggepladser og badeværelser forklaret kort: fra AB-Forbruger og membran til overslag, fald og klimaskærm.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'DefinedTermSet',
+      '@id': absolute(`${path}#ordbog`),
+      name: `Ordbog over byggeord – ${site.name}`,
+      description,
+      url: absolute(path),
+      inLanguage: 'da-DK',
+      hasDefinedTerm: sorted.map(({ term, definition }) => ({
+        '@type': 'DefinedTerm',
+        name: term,
+        description: definition,
+        url: absolute(`${path}#${slugify(term)}`),
+      })),
+    },
+    breadcrumbs([
+      { path: 'blog/', name: 'Blog' },
+      { path, name: 'Ordbog' },
+    ]),
+  ],
+};
+---
+
+<Base title={`Ordbog over byggeord – ${site.name}`} description={description} schema={schema}>
+  <section class="section section-top">
+    <div class="wrap">
+      <PageHead
+        title="Byggeord på almindeligt dansk"
+        name="Ordbog"
+        lead="De ord, du møder i tilbud, aftaler og på byggepladsen, når du skal have lavet tømrer-, flise- eller badeværelsesarbejde."
+        crumbs={[{ href: 'blog/', label: 'Blog' }]}
+      >
+        <nav class="jump letters" aria-label="Bogstaver">
+          {[...groups.keys()].map((letter) => <a href={`#bogstav-${slugify(letter)}`}>{letter}</a>)}
+        </nav>
+      </PageHead>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      {[...groups].map(([letter, group]) => (
+        <div class="letter-group" id={`bogstav-${slugify(letter)}`}>
+          <h2 class="letter">{letter}</h2>
+          <dl class="glossary">
+            {group.map(({ term, definition, guide }) => (
+              <div id={slugify(term)}>
+                <dt>{term}</dt>
+                <dd>
+                  {definition}
+                  {guide && (
+                    <a class="glossary-guide" href={url(`blog/${guide}/`)}>Læs: {find(posts, guide).data.title}</a>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

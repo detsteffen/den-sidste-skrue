@@ -30,6 +30,11 @@
         "text": "Terrasser med en bærende konstruktion, der holder til dansk vejr i mange år.",
         "photo": "terrasse"
       }
+    ],
+    "guides": [
+      "toemrer-timepris",
+      "hvad-koster-et-nyt-tag",
+      "udskiftning-af-vinduer-og-doere"
     ]
   },
   {
@@ -53,6 +58,11 @@
         "text": "Flisearbejde i entré, bryggers og andre rum, hvor overfladen skal kunne holde til noget.",
         "photo": "fliser"
       }
+    ],
+    "guides": [
+      "pris-paa-flisearbejde",
+      "valg-af-fliser-til-badevaerelset",
+      "fliser-i-koekkenet"
     ]
   },
   {
@@ -66,6 +76,11 @@
         "text": "Vi river det gamle ud og bygger badeværelset op på ny, helt ned til den sidste fuge.",
         "photo": "badevaerelse"
       }
+    ],
+    "guides": [
+      "hvad-koster-et-nyt-badevaerelse",
+      "badevaerelsesrenovering-trin-for-trin",
+      "regler-for-vaadrum"
     ]
   }
 ]

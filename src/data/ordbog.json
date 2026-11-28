@@ -1,0 +1,388 @@
+[
+  {
+    "term": "1-års-eftersyn",
+    "definition": "En gennemgang af arbejdet senest et år efter afleveringen, hvor nye mangler skrives ned i en rapport. Efter AB-Forbruger holdes eftersynet, når prisen er over 500.000 kr., og ellers hvis en af parterne beder om det inden for det første år.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "AB-Forbruger",
+    "definition": "Standardbetingelser for aftaler om byggearbejde mellem en håndværker og en privat forbruger. De regulerer bl.a. tilbud, ekstraarbejde, betaling, forsinkelse, aflevering og mangler. AB-Forbruger er ikke en lov og gælder kun, hvis I har aftalt at bruge betingelserne.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Acontobetaling",
+    "definition": "Delbetaling undervejs i et byggeri for det arbejde og de materialer, der allerede er leveret. Efter AB-Forbruger skal du som udgangspunkt først betale ved afleveringen, så løbende betaling skal være aftalt.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Aflevering",
+    "definition": "Det tidspunkt, hvor håndværkeren overdrager det færdige arbejde til dig. Afleveringen afgør, om arbejdet har mangler, og efter AB-Forbruger skal betalingen som udgangspunkt ske her. Påpeger du væsentlige mangler inden for 10 arbejdsdage, regnes arbejdet først som afleveret, når de er rettet.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Afleveringsforretning",
+    "definition": "Et møde ved afleveringen, hvor du og håndværkeren gennemgår arbejdet og skriver manglerne i en protokol, som I begge skriver under. Efter AB-Forbruger holdes mødet, hvis prisen er over 50.000 kr., og en af jer beder om det, før arbejdet er færdigt – eller hvis I har aftalt det.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Autorisation",
+    "definition": "En godkendelse fra Sikkerhedsstyrelsen, som en virksomhed skal have for at udføre bl.a. el-, vand- og afløbsinstallationer. En tømrer uden autorisation må derfor ikke lave rør eller el i et badeværelse. Det skal en autoriseret VVS- eller el-installatør gøre.",
+    "guide": "hvem-goer-hvad-i-badevaerelset"
+  },
+  {
+    "term": "BBR",
+    "definition": "Bygnings- og Boligregistret, hvor oplysninger om bygningerne på din grund er registreret, fx areal og anvendelse. Kommunen opdaterer registret, men du har som ejer ansvaret for, at oplysningerne er rigtige – også om skure og carporte, der er bygget uden byggetilladelse.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Bebyggelsesprocent",
+    "definition": "Etagearealet på grunden i procent af grundens areal. For et fritliggende parcelhus må den efter BR18 være op til 30 %, medmindre en lokalplan siger andet. Op til 50 m² garage, carport og skure må trækkes fra, når etagearealet beregnes.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Bjælkelag",
+    "definition": "Den bærende konstruktion af træbjælker, der udgør gulv og loft mellem to etager eller over en krybekælder. Træ bevæger sig med fugt og belastning, så et badeværelse på bjælkelag kræver en stiv og fugtsikker opbygning.",
+    "guide": "badevaerelse-paa-traebjaelkelag"
+  },
+  {
+    "term": "Bruseniche",
+    "definition": "Det afgrænsede område i badeværelset, hvor du bruser. Gulvet i brusenichen skal have fald mod gulvafløbet, og væggene omkring den hører til vådrummets vådzone, hvor kravene til membran og materialer er strengest.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Byg og Miljø",
+    "definition": "Den digitale portal på bygogmiljoe.dk, hvor du søger byggetilladelse og andre tilladelser hos kommunen. Ansøgningen skal signeres digitalt af ejeren, og kommunen kan som hovedregel afvise ansøgninger, der ikke sendes digitalt.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Byggeskadeforsikring",
+    "definition": "En forsikring, som en professionel bygherre som hovedregel skal tegne, når der opføres nye helårsboliger. Den gælder i ti år og kan ikke opsiges i den periode."
+  },
+  {
+    "term": "Byggetilladelse",
+    "definition": "Kommunens skriftlige tilladelse til et byggearbejde. Efter BR18 kræver alt byggeri tilladelse, medmindre det er undtaget, fx carporte og skure på i alt højst 50 m². En tilbygning kræver altid byggetilladelse, og du må ikke gå i gang, før den foreligger.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Bærende væg",
+    "definition": "En væg, der bærer vægt fra etagedæk, tag eller andre vægge ned mod fundamentet. Fjernes eller ændres den, skal der laves en ny konstruktion, fx en bjælke, som en ingeniør har beregnet. I etageboliger kræver det byggetilladelse og en certificeret statiker.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Cementfuge",
+    "definition": "Den mest almindelige fugemasse mellem fliser, baseret på cement. Den er billig og nem at arbejde med, men den er porøs og kan suge snavs og fugt. Fugen er ikke vandtæt – det er membranen bag fliserne, der holder vandet ude.",
+    "guide": "cementfuge-eller-epoxyfuge"
+  },
+  {
+    "term": "Dagbod",
+    "definition": "Et fast beløb pr. dag, som håndværkeren skal betale, hvis arbejdet bliver forsinket uden ret til at få fristen forlænget. Efter AB-Forbruger kan du kun kræve dagbod, hvis det er aftalt, og så kan du ikke også kræve erstatning for forsinkelsen.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Dampspærre",
+    "definition": "Et tæt lag, typisk af plastfolie, på den varme side af isoleringen. Det forhindrer fugtig indeluft i at trænge ud i konstruktionen, hvor fugten kan fortætte og give råd og skimmel. Samlinger og gennemføringer skal derfor være helt tætte."
+  },
+  {
+    "term": "Dispensation",
+    "definition": "Kommunens tilladelse til at fravige en bestemt regel i bygningsreglementet. Kommunen kan give dispensation, når det er foreneligt med hensynet bag reglen. En dispensation gælder kun, når den er givet skriftligt.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Ekstraarbejde",
+    "definition": "Arbejde, der ikke er med i den oprindelige aftale, fx fordi du ønsker ændringer, eller fordi der dukker uforudsete forhold op. Efter AB-Forbruger skal ændringer aftales i en skriftlig tillægsaftale om omfang, pris og tidsplan, og håndværkeren har bevisbyrden for, hvad der er aftalt.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Energirude",
+    "definition": "En lukket rude af to eller tre lag glas med en usynlig belægning, der holder på varmen, og ofte gas mellem lagene. Energiruder isolerer markant bedre end enkeltglas og ældre termoruder.",
+    "guide": "udskiftning-af-vinduer-og-doere"
+  },
+  {
+    "term": "Epoxyfuge",
+    "definition": "En fugemasse af to komponenter, der hærder til en tæt og hård fuge. Den suger ikke snavs og fugt som en cementfuge, men den er dyrere og sværere at arbejde med, fordi den skal lægges hurtigt og vaskes grundigt af fliserne.",
+    "guide": "cementfuge-eller-epoxyfuge"
+  },
+  {
+    "term": "Eref",
+    "definition": "Energitilskuddet for et vindue, målt i kWh pr. m² pr. år. Tallet viser, hvor meget energi vinduet netto giver eller koster i fyringssæsonen, når både varmetab og solvarme regnes med. Jo højere Eref, jo bedre, og tallet kan godt være negativt.",
+    "guide": "udskiftning-af-vinduer-og-doere"
+  },
+  {
+    "term": "Fald",
+    "definition": "Gulvets hældning mod gulvafløbet i et vådrum. Bygningsreglementet kræver, at vand på gulvet ledes til afløbet, så der må ikke være lunker eller bagfald, hvor vandet bliver stående. Fald angives som forhold, fx 1:100, der svarer til 1 cm pr. meter.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Fliseklæber",
+    "definition": "Den cementbaserede lim, som fliser sættes op og lægges med. Klæberen skal passe til både underlaget og flisetypen, og store eller meget tætte fliser kræver typisk en mere fleksibel klæber end små vægfliser."
+  },
+  {
+    "term": "Forhåndsdialog",
+    "definition": "En dialog med kommunen, inden du søger byggetilladelse, hvor rammerne for projektet og eventuelle krav fra anden lovgivning bliver afklaret. Den kan spare tid, hvis projektet ligger i en gråzone.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Forsatsvindue",
+    "definition": "En ekstra ramme med glas, der monteres på et eksisterende vindue, typisk på indersiden. Den forbedrer isolering og lyddæmpning og bruges ofte i ældre huse, hvor de oprindelige vinduer skal bevares.",
+    "guide": "udskiftning-af-vinduer-og-doere"
+  },
+  {
+    "term": "Fugtig zone",
+    "definition": "Den del af væggene i et vådrum, der ligger uden for vådzonen og kun af og til bliver våd, fx af stænk. Kravene til materialer og konstruktion er mindre strenge end i vådzonen, men strengere end i rum uden vand.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Færdigmelding",
+    "definition": "Din besked til kommunen om, at et byggeri med byggetilladelse er færdigt. Sammen med færdigmeldingen sender du bl.a. en erklæring om, at byggeriet følger tilladelsen og bygningsreglementet, og den dokumentation, der viser det.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Gulvafløb",
+    "definition": "Afløbet i gulvet i et vådrum, som vandet fra bruseren og gulvet løber ned i. Membranen skal sluttes tæt til afløbet, og gulvet skal have fald mod det. Et rum med gulvafløb regnes altid som vådrum.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Helhedsvurdering",
+    "definition": "Kommunens konkrete vurdering af et byggeri, der ikke holder sig inden for byggeretten, fx fordi det er for højt eller ligger for tæt på skel. Kommunen ser bl.a. på lys, indblik og omgivelser, og du skal søge byggetilladelse.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Hulmursisolering",
+    "definition": "Isolering, der blæses ind i hulrummet mellem de to vanger i en muret hulmur. Det er en måde at efterisolere ydervægge på uden at ændre facaden, og arbejdslønnen kan give håndværkerfradrag som grøn istandsættelse.",
+    "guide": "haandvaerkerfradrag"
+  },
+  {
+    "term": "Håndværkerfradrag",
+    "definition": "Fradrag for arbejdsløn til grøn istandsættelse af boligen, fx nye vinduer, yderdøre og efterisolering. I 2026 er loftet 9.000 kr. pr. person, og værdien er ca. 26 %. Materialer og almindelig renovering som et nyt badeværelse giver ikke fradrag.",
+    "guide": "haandvaerkerfradrag"
+  },
+  {
+    "term": "Ibrugtagningstilladelse",
+    "definition": "Kommunens tilladelse til at tage et byggeri med byggetilladelse i brug, fx en tilbygning. Garager, carporte, skure og overdækkede terrasser, der ikke er integreret i huset, må tages i brug uden en sådan tilladelse.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Inddækning",
+    "definition": "Tætningen omkring gennemføringer og overgange i taget, fx ved skorsten, ovenlysvinduer og kviste, typisk lavet af zink, bly eller aluminium. Inddækningen skal lede vandet væk fra samlingen, så det ikke løber ind under tagbelægningen.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Integreret bygning",
+    "definition": "En garage, carport eller et udhus, der ligger under samme tagkonstruktion som huset eller er konstruktivt en del af det. En integreret bygning kræver altid byggetilladelse og tæller ikke med i de 50 m², der må bygges uden tilladelse.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Klimaskærm",
+    "definition": "De bygningsdele, der adskiller husets opvarmede rum fra det fri: ydervægge, tag, gulv mod jord samt vinduer og døre. Klimaskærmens isolering og tæthed har stor betydning for varmeforbruget og for, om der opstår fugtproblemer."
+  },
+  {
+    "term": "Klinker",
+    "definition": "I daglig tale keramiske fliser til gulve, mens ordet fliser ofte bruges om vægfliser. I dag bruges ordene tit i flæng, så spørg hellere til flisens egenskaber, fx vandoptagelse og skridsikkerhed, end til navnet.",
+    "guide": "valg-af-fliser-til-badevaerelset"
+  },
+  {
+    "term": "Konstruktionsklasse",
+    "definition": "Bygningsreglementets inddeling af bærende konstruktioner i fire klasser efter, hvor komplicerede de er, og hvor alvorlige følgerne af et svigt vil være. I klasse 2–4 skal en certificeret statiker tilknyttes. Ombygninger i parcelhuse hører oftest til klasse 1.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Kuldebro",
+    "definition": "Et sted i klimaskærmen, hvor varmen slipper lettere ud end gennem resten af konstruktionen, fx omkring vinduer eller ved fundamentet. Kuldebroer giver varmetab og kolde overflader, hvor der kan dannes kondens og skimmel."
+  },
+  {
+    "term": "Kvist",
+    "definition": "En udbygning på et skråt tag med eget lille tag og et vindue, som giver mere loftshøjde og lys på første sal. En kvist, der udvider etagearealet, kræver byggetilladelse.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Lamelgulv",
+    "definition": "Et trægulv af brædder, der er bygget op i lag med et slidlag af massivt træ øverst og en kerne af billigere træ eller træfiber. Lamelgulve arbejder mindre med fugt end massive plankegulve og lægges ofte som svømmende gulv.",
+    "guide": "nyt-traegulv"
+  },
+  {
+    "term": "Linjeafløb",
+    "definition": "Et langt, smalt gulvafløb, der typisk placeres langs en væg i brusenichen. Gulvet skal så kun have fald i én retning, hvilket gør det nemmere at bruge store fliser i bruseområdet.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Lokalplan",
+    "definition": "En plan fra kommunen med regler for et bestemt område, fx hvor meget og hvor højt der må bygges, og hvilke materialer og farver der skal bruges. Lokalplanens regler går forud for bygningsreglementets regler om højde, afstand og bebyggelsesprocent.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Lægter",
+    "definition": "De vandrette trælister, der fastgøres oven på spærene eller på afstandslister over undertaget, og som tagstenene hænges eller fastgøres på. Afstanden mellem lægterne afhænger af, hvilke tagsten der bruges.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Mangel",
+    "definition": "En fejl ved arbejdet: Det er ikke udført som aftalt eller fagmæssigt korrekt, eller materialerne er ikke som aftalt eller af sædvanlig god kvalitet. Efter AB-Forbruger har håndværkeren både pligt og ret til at udbedre mangler inden for en rimelig frist.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Membran",
+    "definition": "Det vandtætte lag under fliserne i et vådrum. Fliser og fuger er ikke vandtætte, så det er membranen, der beskytter gulv og vægge bag dem. Den males eller rulles typisk på i flere lag med tætningsbånd i hjørner og ved rør.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "NTR",
+    "definition": "Nordisk Træbeskyttelsesråds klassificering af trykimprægneret træ. NTR A er beregnet til træ i jord og ferskvand, fx stolper, mens NTR AB er til træ over jord, fx terrassebrædder og hegnsbrædder.",
+    "guide": "hvilket-trae-til-terrasse"
+  },
+  {
+    "term": "Opretning",
+    "definition": "Udjævning af et skævt eller ujævnt gulv eller en væg, før det nye lag lægges på. Et betongulv rettes typisk op med flydespartel, mens et trægulv kan rettes op ved at justere eller kile strøerne op."
+  },
+  {
+    "term": "Overslag",
+    "definition": "En vurdering af, hvad arbejdet forventes at koste – ikke en fast pris. Efter AB-Forbruger skal håndværkeren hurtigst muligt spørge dig, før arbejdet fortsætter, hvis prisen ser ud til at overstige overslaget med mere end 15 %.",
+    "guide": "tilbud-eller-overslag"
+  },
+  {
+    "term": "Parket",
+    "definition": "Et trægulv af mindre stave eller brædder, i dag oftest som færdigbehandlet lamelparket med et slidlag af massivt træ. Parket kan lægges som svømmende gulv eller limes fast til undergulvet.",
+    "guide": "nyt-traegulv"
+  },
+  {
+    "term": "Plankegulv",
+    "definition": "Et gulv af massive brædder, typisk af fyr, gran eller eg, der sømmes eller skrues fast på strøer eller et bjælkelag. Det kan slibes mange gange, men arbejder mere med fugt end et lamelgulv.",
+    "guide": "nyt-traegulv"
+  },
+  {
+    "term": "Porcelænsflise",
+    "definition": "En meget tæt, hårdt brændt keramisk flise, der næsten ikke suger vand. Den er slidstærk og bruges både på gulve og vægge, også i badeværelser og køkkener, hvor den tåler vand og rengøring godt.",
+    "guide": "valg-af-fliser-til-badevaerelset"
+  },
+  {
+    "term": "Primer",
+    "definition": "En grunder, der påføres underlaget før membran, flydespartel eller fliseklæber. Den binder støv, regulerer, hvor meget underlaget suger, og giver bedre vedhæftning. Primeren skal passe til det produkt, der kommer ovenpå."
+  },
+  {
+    "term": "R10",
+    "definition": "En skridsikkerhedsklasse for gulvbelægninger, målt ved en rampetest med sko på et olieret gulv efter metoden i DIN 51130. Skalaen går fra R9 til R13, hvor R13 er mest skridsikker. Til bare fødder bruges i stedet klasserne A, B og C.",
+    "guide": "valg-af-fliser-til-badevaerelset"
+  },
+  {
+    "term": "Regningsarbejde",
+    "definition": "Arbejde, der afregnes efter den tid og de materialer, der faktisk bliver brugt, i stedet for en fast pris. Aftal timepris og gerne et overslag på forhånd. Er der ingen aftale om prisen, skal du efter AB-Forbruger betale, hvad der er rimeligt.",
+    "guide": "tilbud-eller-overslag"
+  },
+  {
+    "term": "Reklamation",
+    "definition": "Din besked til håndværkeren om, at der er en mangel ved arbejdet. Efter AB-Forbruger skal du reklamere inden rimelig tid efter, at du har opdaget manglen eller burde have opdaget den. Gør det skriftligt, så det kan dokumenteres.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Servicefradrag",
+    "definition": "Fradrag for arbejdsløn til hjælp i hjemmet, fx rengøring, vinduespudsning, havearbejde og rensning af tagrender. I 2026 er loftet 18.300 kr. pr. person, og det kommer oven i håndværkerfradraget. Tømrer- og flisearbejde er ikke omfattet.",
+    "guide": "haandvaerkerfradrag"
+  },
+  {
+    "term": "Servitut",
+    "definition": "En rettighed eller begrænsning, der er tinglyst på en ejendom, fx et forbud mod visse bygninger eller et krav om afstand til skel. En servitut kan være strengere end bygningsreglementet, og du kan finde servitutterne på tinglysning.dk.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Sikkerhedsstillelse",
+    "definition": "En garanti, typisk fra en bank, der sikrer den ene part, hvis den anden ikke opfylder aftalen. Efter AB-Forbruger skal det aftales. Stiller håndværkeren sikkerhed, svarer den som udgangspunkt til 15 % af prisen og ophører 1 år og 30 dage efter afleveringen.",
+    "guide": "ab-forbruger"
+  },
+  {
+    "term": "Silikonefuge",
+    "definition": "En elastisk fuge i hjørner og ved overgange, fx mellem væg og gulv eller ved et badekar, hvor bygningsdele bevæger sig i forhold til hinanden. Silikonefuger er sliddele, der skal holdes øje med og skiftes, når de slipper eller bliver mørke af skimmel.",
+    "guide": "cementfuge-eller-epoxyfuge"
+  },
+  {
+    "term": "Skel",
+    "definition": "Den juridiske grænse mellem din grund og naboens, vejen eller stien. Bygningsreglementet bestemmer, hvor tæt på skel du må bygge. Et skur eller en carport må fx stå nærmere end 2,5 m, hvis det højst er 2,5 m højt og ikke har vinduer mod naboen.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Småbygning",
+    "definition": "Fællesbetegnelse for garager, carporte, udhuse, drivhuse, overdækkede terrasser og lignende, som bygningsreglementet kalder sekundær bebyggelse. Op til 50 m² i alt pr. grund kan bygges uden byggetilladelse, hvis reglerne om skel, højde og brand overholdes.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Spær",
+    "definition": "De skrå bjælker, der bærer taget og hviler på husets ydervægge. Spærene bærer lægter og tagbelægning, så ændringer i dem, fx når der skal laves en ny kvist, påvirker tagets bæreevne og skal beregnes.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Statiker",
+    "definition": "En ingeniør, der beregner og dokumenterer, at bærende konstruktioner kan holde. Ved byggeri i konstruktionsklasse 2–4 skal ansøgningen om byggetilladelse have tilknyttet en certificeret statiker.",
+    "guide": "kraever-det-byggetilladelse"
+  },
+  {
+    "term": "Sternbræt",
+    "definition": "Det bræt, der dækker spærenderne langs tagets nederste kant ved tagfoden. Tagrenden er ofte monteret på eller ved sternbrættet, så det skal være sundt og fast.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Strøer",
+    "definition": "Trælister, der lægges med jævn afstand under et trægulv eller en terrasse, og som brædderne fastgøres til. Strøerne bærer belastningen og kan bruges til at rette et gulv op, så det bliver plant.",
+    "guide": "nyt-traegulv"
+  },
+  {
+    "term": "Svømmende gulv",
+    "definition": "Et gulv, der ikke er fastgjort til undergulvet, men ligger løst på et underlag og holdes sammen af sine egne samlinger. Det skal have luft langs væggene til at udvide sig. Lamelgulve og laminat lægges ofte sådan.",
+    "guide": "nyt-traegulv"
+  },
+  {
+    "term": "Terrændæk",
+    "definition": "Et gulv, der er støbt direkte på jorden, typisk med isolering og et kapillarbrydende lag af fx sten eller letklinker under betonen, så fugt fra jorden ikke suges op i gulvet."
+  },
+  {
+    "term": "Tilbud",
+    "definition": "En bindende pris for et beskrevet arbejde. Efter AB-Forbruger bortfalder et skriftligt tilbud, hvis du ikke accepterer det senest 20 arbejdsdage efter dets dato, medmindre håndværkeren har sat en anden frist.",
+    "guide": "tilbud-eller-overslag"
+  },
+  {
+    "term": "Totalentreprise",
+    "definition": "En aftale, hvor én virksomhed står for både projektering og udførelse og selv hyrer underentreprenører. Ved fagentreprise indgår du i stedet aftaler med hvert fag og skal selv sørge for at koordinere mellem dem.",
+    "guide": "hvem-goer-hvad-i-badevaerelset"
+  },
+  {
+    "term": "Trykimprægneret træ",
+    "definition": "Træ, typisk fyr, hvor et træbeskyttelsesmiddel er presset ind under tryk, så det bedre modstår råd og svamp. Det klassificeres efter NTR, og snitflader, der saves efter imprægneringen, er dårligere beskyttet.",
+    "guide": "hvilket-trae-til-terrasse"
+  },
+  {
+    "term": "U-værdi",
+    "definition": "Et mål for, hvor meget varme der slipper gennem en bygningsdel, angivet i W/m²K, dvs. watt pr. m² pr. grads temperaturforskel mellem inde og ude. Jo lavere U-værdi, jo bedre isolerer vinduet, væggen eller taget.",
+    "guide": "udskiftning-af-vinduer-og-doere"
+  },
+  {
+    "term": "Udsugning",
+    "definition": "Ventilation, der fjerner fugtig luft fra badeværelset, enten med en ventilator eller gennem et naturligt aftræk. God udsugning mindsker risikoen for fugt og skimmel, og bygningsreglementet stiller krav til luftskiftet i baderum.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Undertag",
+    "definition": "Et tæt lag under tagbelægningen, der fanger vand og fygesne, som trænger forbi tagstenene, og leder det ud over tagfoden. Undertaget beskytter loftet og isoleringen mod fugt.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Vindskede",
+    "definition": "Brædderne langs tagets skrå kant ved gavlen. De dækker overgangen mellem tag og gavl og beskytter tagkonstruktionen mod vind og regn.",
+    "guide": "hvad-koster-et-nyt-tag"
+  },
+  {
+    "term": "Vindspærre",
+    "definition": "Et lag på den kolde side af isoleringen, der forhindrer vind i at blæse gennem isoleringen, men lader fugt slippe ud. Det er typisk plader eller en dug bag en facadebeklædning eller under et tag."
+  },
+  {
+    "term": "Vådrum",
+    "definition": "Et rum, der påvirkes af vand eller høj luftfugtighed, fx et badeværelse. Et rum med gulvafløb regnes altid som vådrum. Bygningsreglementet stiller særlige krav til vådrum, bl.a. at vand på gulvet skal ledes til gulvafløbet.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Vådrumsplade",
+    "definition": "En vægplade beregnet til vådrum, fx en fibergipsplade eller en cementbaseret plade. Den bruges som underlag for membran og fliser i badeværelset og tåler fugt bedre end almindelige gipsplader.",
+    "guide": "regler-for-vaadrum"
+  },
+  {
+    "term": "Vådzone",
+    "definition": "Den del af vådrummet, der jævnligt bliver direkte våd. Den omfatter hele gulvet og væggene ved bruseniche og badekar, typisk indtil 500 mm fra dem og helt op til loftet. I meget små badeværelser regnes alle vægge som vådzone.",
+    "guide": "regler-for-vaadrum"
+  }
+]

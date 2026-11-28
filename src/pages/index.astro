@@ -5,25 +5,14 @@ import Instagram from '../components/Instagram.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import Reviews from '../components/Reviews.astro';
 import Base from '../layouts/Base.astro';
-import { site, url } from '../lib/site';
-
-const business = {
-  '@context': 'https://schema.org',
-  '@type': 'GeneralContractor',
-  name: site.name,
-  slogan: site.slogan,
-  url: new URL(url(), Astro.site).href,
-  telephone: site.phoneHref,
-  email: site.email,
-  founder: site.owner,
-  areaServed: { '@type': 'City', name: site.city },
-};
+import { business } from '../lib/schema';
+import { site } from '../lib/site';
 ---
 
 <Base
   title={`Tømrer i ${site.city} – ${site.name}`}
   description={`${site.slogan}. Tømrerarbejde, flisearbejde og badeværelsesrenovering i ${site.city} og omegn. Få et uforpligtende tilbud.`}
-  schema={business}
+  schema={{ '@context': 'https://schema.org', ...business }}
 >
   <Hero />
   <QuoteForm />
