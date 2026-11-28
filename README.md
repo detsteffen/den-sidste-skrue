@@ -67,8 +67,10 @@ in a folder under `leads/`.
   (blog slugs; the build fails if one does not exist). `area` and `order`
   decide where it is listed. The body is the running text; link to guides
   root-relative. A guide named in `guides` links back to the service.
-- **Go live:** fill in `src/data/site.json` and set `indexable` to `true`.
-  Until then every page carries `noindex`.
+- **Search engines:** with `indexable` set to `true` in `src/data/site.json`,
+  pages may be indexed, but only in a build for `domain` (the server's
+  `SITE_URL`). The GitHub Pages copy and local builds always carry
+  `noindex`, so Google never sees the site twice.
 
 ## Blog
 

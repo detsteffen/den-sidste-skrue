@@ -1,4 +1,6 @@
 ---
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import Rings from '../components/Rings.astro';
 import Screw from '../components/Screw.astro';
 import { site, url } from '../lib/site';
@@ -16,6 +18,15 @@ interface Props {
 
 const { title, description, schema, image, article } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// A hash of the file in its address makes browsers fetch a changed file
+// at once instead of reusing the copy they cached before a deploy.
+const versioned = (file: string) => {
+  const hash = createHash('sha256').update(readFileSync(`public/${file}`));
+  return `${url(file)}?v=${hash.digest('hex').slice(0, 10)}`;
+};
+// Only the build for the real domain may be indexed; the preview copy on
+// GitHub Pages and local builds would otherwise compete with it.
+const indexable = site.indexable && Astro.site?.hostname === site.domain;
 const nav = [
   { href: 'om-os/', label: 'Om os' },
   { href: 'vi-udfoerer/', label: 'Vi udfører' },
@@ -32,7 +43,7 @@ const mark =
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {!site.indexable && <meta name="robots" content="noindex" />}
+    {!indexable && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#F6F1E4" />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:locale" content="da_DK" />
@@ -48,7 +59,7 @@ const mark =
     <link rel="alternate" type="application/rss+xml" title={`Råd og guides fra ${site.name}`} href={url('blog/rss.xml')} />
     <link rel="preload" href={url('fonts/fraunces-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={url('fonts/inter-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href={url('styles.css')} />
+    <link rel="stylesheet" href={versioned('styles.css')} />
     <script is:inline>document.documentElement.classList.add('js');</script>
     {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />}
   </head>
@@ -149,6 +160,6 @@ const mark =
       <a class="button" href={url('#pris')}>Få en pris</a>
     </div>
 
-    <script is:inline src={url('app.js')}></script>
+    <script is:inline src={versioned('app.js')}></script>
   </body>
 </html>

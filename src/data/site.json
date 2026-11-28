@@ -8,7 +8,8 @@
   "phoneHref": "+4530563480",
   "email": "kasper@densidsteskrue.dk",
   "cvr": "46915771",
-  "indexable": false,
+  "domain": "densidsteskrue.dk",
+  "indexable": true,
   "stockPhotos": true,
   "leadEndpoint": "/api/lead",
   "instagram": {
