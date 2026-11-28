@@ -135,6 +135,11 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
         if self.command != 'HEAD':
             self.wfile.write(page)
 
+    def list_directory(self, path):
+        """Refuses directory listings; every page has its own index.html."""
+        del path  # Unused: no folder is listed.
+        self.send_error(http.HTTPStatus.NOT_FOUND)
+
     def do_POST(self):  # http.server name, so pylint: disable=invalid-name
         length = int(self.headers.get('Content-Length', 0))
         if self.path != '/api/lead' or not 0 < length <= _MAX_BODY_BYTES:
