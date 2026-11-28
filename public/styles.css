@@ -1123,6 +1123,45 @@ textarea {
   transform: scale(1.04);
 }
 
+/* Fewer than three posts: one tile to the profile closes the row. It takes
+   the height of the square photos beside it instead of its own. */
+.insta-more {
+  position: relative;
+}
+
+.insta-more[data-span="2"] {
+  grid-column: span 2;
+}
+
+.insta .insta-more a {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  aspect-ratio: auto;
+  padding: clamp(16px, 2.4vw, 28px);
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.2;
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.insta .insta-more a:hover {
+  border-color: var(--brass);
+  background: var(--paper);
+}
+
+.insta-more .screw {
+  width: 28px;
+  height: 28px;
+  --star: var(--card);
+}
+
 .insta-fallback {
   display: flex;
   align-items: center;
@@ -2437,6 +2476,14 @@ textarea {
   .panel > img {
     min-height: 0;
     aspect-ratio: 3 / 2;
+  }
+
+  .insta .insta-more a {
+    padding: 14px;
+  }
+
+  .insta-more .screw {
+    display: none;
   }
 }
 

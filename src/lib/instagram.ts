@@ -26,10 +26,12 @@ async function load(): Promise<InstagramPost[]> {
   if (!site.instagram.url || !site.instagram.feed) return [];
   try {
     const { posts } = await (await fetchOk(site.instagram.feed)).json();
-    // Whole rows of three only, so the grid never ends on a ragged row.
+    // Whole rows of three once there are three; below that every post shows
+    // and the component fills the row with a link to the profile.
     const count = Math.min(posts.length, MAX_POSTS);
+    const shown = count < 3 ? count : count - (count % 3);
     return await Promise.all(
-      posts.slice(0, count - (count % 3)).map(async (post: any) => {
+      posts.slice(0, shown).map(async (post: any) => {
         const { mediaUrl, width, height } = post.sizes.medium;
         return {
           id: post.id,

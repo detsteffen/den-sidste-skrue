@@ -12,7 +12,7 @@
   "stockPhotos": true,
   "leadEndpoint": "/api/lead",
   "instagram": {
-    "url": "",
-    "feed": ""
+    "url": "https://www.instagram.com/densidsteskrue/",
+    "feed": "https://feeds.behold.so/ahRp0XSXsgL8c716ZbFQ"
   }
 }

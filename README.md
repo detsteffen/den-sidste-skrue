@@ -45,7 +45,9 @@ in a folder under `leads/`.
   (`https://feeds.behold.so/…`) to show the latest posts. The feed and its
   photos are read when the site is built, and the photos are saved with the
   site, so visitors fetch nothing from Behold or Instagram. The publishing
-  workflow rebuilds once a day to pick up new posts. If the feed or one of
+  workflow rebuilds once a day to pick up new posts. Up to nine posts show
+  in whole rows of three; with one or two, a tile linking to the profile
+  fills the row. If the feed or one of
   its photos cannot be read, the section falls back to the plain link and
   the build log says why. GitHub switches scheduled runs off in a public
   repository after 60 days without activity; switch the workflow back on

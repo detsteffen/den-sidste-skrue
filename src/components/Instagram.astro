@@ -5,6 +5,7 @@ import Screw from './Screw.astro';
 
 const { url: profile } = site.instagram;
 const posts = await latestPosts();
+const emptyCells = (3 - (posts.length % 3)) % 3;
 ---
 
 {profile && (
@@ -24,6 +25,14 @@ const posts = await latestPosts();
               </a>
             </li>
           ))}
+          {emptyCells > 0 && (
+            <li class="insta-more" data-span={emptyCells}>
+              <a href={profile} rel="noopener">
+                <Screw />
+                <span>Se flere på Instagram</span>
+              </a>
+            </li>
+          )}
         </ul>
       ) : (
         <a class="insta-fallback" href={profile} rel="noopener" data-reveal>
