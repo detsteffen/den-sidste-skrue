@@ -1,0 +1,4 @@
+# Rebuilds the site every night (04:41 Danish winter time) so new Instagram
+# posts reach it. deploy.sh installs this as /etc/cron.d/den-sidste-skrue;
+# the output goes to the journal: journalctl -t den-sidste-skrue
+41 3 * * * root cd /opt/den-sidste-skrue/deploy/hetzner && BUILD_DATE=$(date +\%F) docker compose up -d --build --wait --wait-timeout 300 2>&1 | logger -t den-sidste-skrue

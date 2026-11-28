@@ -44,8 +44,9 @@ in a folder under `leads/`.
   `instagram.feed` to a Behold JSON feed address
   (`https://feeds.behold.so/…`) to show the latest posts. The feed and its
   photos are read when the site is built, and the photos are saved with the
-  site, so visitors fetch nothing from Behold or Instagram. The publishing
-  workflow rebuilds once a day to pick up new posts. Up to nine posts show
+  site, so visitors fetch nothing from Behold or Instagram. The server
+  rebuilds the site every night to pick up new posts (see Publishing), and
+  so does the GitHub Pages workflow for its copy. Up to nine posts show
   in whole rows of three; with one or two, a tile linking to the profile
   fills the row. If the feed or one of
   its photos cannot be read, the section falls back to the plain link and
@@ -118,6 +119,12 @@ the one Caddy on the server, whose site block lives in telefonist's repo
 (`deploy/hetzner/Caddyfile`); `densidsteskrue.91-98-223-238.sslip.io`
 reaches the site whatever the domain's DNS says. The domain is registered
 at one.com, where its A records for `@` and `www` point to the server.
+
+Every night at 03:41 UTC the server rebuilds the site from the last deploy,
+so new Instagram posts appear without a deploy. `deploy.sh` installs the job
+from `deploy/hetzner/rebuild.cron` as `/etc/cron.d/den-sidste-skrue`; its
+output is in `journalctl -t den-sidste-skrue`. The container is replaced
+during the rebuild, so the site is away for a few seconds at that hour.
 
 A push to `main` also builds a copy on GitHub Pages through
 `.github/workflows/pages.yml`, for previews. `SITE_URL` and `SITE_BASE` set

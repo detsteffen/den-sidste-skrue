@@ -19,6 +19,7 @@ services:
       dockerfile: deploy/hetzner/Dockerfile
       args:
         SITE_URL: https://densidsteskrue.dk
+        BUILD_DATE: ${BUILD_DATE:-}
     restart: unless-stopped
     logging: *logging
     volumes:

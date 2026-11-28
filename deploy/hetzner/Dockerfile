@@ -6,6 +6,9 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 ARG SITE_URL
+# A new BUILD_DATE misses the cache here, so the nightly rebuild reads the
+# Instagram feed again instead of reusing yesterday's build.
+ARG BUILD_DATE
 RUN SITE_URL="$SITE_URL" npm run build
 
 FROM python:3.12-slim

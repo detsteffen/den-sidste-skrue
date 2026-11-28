@@ -120,6 +120,9 @@ class _Handler(http.server.SimpleHTTPRequestHandler):
         **http.server.SimpleHTTPRequestHandler.extensions_map,
         '.md': 'text/markdown; charset=utf-8',
         '.txt': 'text/plain; charset=utf-8',
+        # Python 3.12, which the container runs, knows neither of these.
+        '.webp': 'image/webp',
+        '.woff2': 'font/woff2',
     }
 
     def send_error(self, code, message=None, explain=None):

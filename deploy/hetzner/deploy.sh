@@ -28,6 +28,7 @@ rsync -az --delete "$stage/" "$host:/opt/den-sidste-skrue/"
 
 ssh "$host" 'cd /opt/den-sidste-skrue/deploy/hetzner \
   && docker compose up -d --build --wait --wait-timeout 300 \
+  && install -m 644 rebuild.cron /etc/cron.d/den-sidste-skrue \
   && docker compose ps'
 
 echo "Kører nu den-sidste-skrue $(git -C "$repo" rev-parse --short HEAD)."
